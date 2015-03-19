@@ -17,6 +17,7 @@ public class Examples
         File f = new File(l.getPath());
         File f2 = new File(MarkovChain.class.getResource("assemblytutorial.txt").getPath());
 
+        //I know its just chaining together the same things, but I want a nice pool of randomness
         for(int i = 0; i < 10; i++)
         {
             MarkovChainUtilities.extendChainWithFile(mc, f);
