@@ -76,12 +76,72 @@ public class MarkovBot
         }
     }
 
+    /*
+        Helper method to load the file contents into the markov generator
+     */
     private void load() throws IOException
     {
         for(String line : Files.readAllLines(brainFile.toPath()))
             markovChain.addPhrase(line);
     }
 
+    /**
+     * Adds a new phrase to the Markov generator.
+     * This both adds the phrase to the actual Markov generator as well as
+     * prepares that phrase to be saved.
+     * @param phrase the phrase to add to the Markov generator and to the file
+     */
+    public void addPhrase(String phrase)
+    {
+        markovChain.addPhrase(phrase);
+        newData.append(phrase).append(System.getProperty("line.separator"));
+    }
+
+    /**
+     * Adds new phrases to the Markov generator.
+     * This adds all the phrases in the Iterable to the Markov generator and to the running set of data
+     * to be saved to the file.
+     * @param phrases the phrases to add to the generator.
+     */
+    public void addPhrases(Iterable<String> phrases)
+    {
+        for(String s : phrases)
+            addPhrase(s);
+    }
+
+    /**
+     * A varargs version of addPhrases(Iterable<String> phrases) provided as convenience.
+     * @param phrases the varargs of phrases to add to the generator and data
+     */
+    public void addPhrases(String ...phrases)
+    {
+        for(String s : phrases)
+            addPhrase(s);
+    }
+
+    /**
+     * Generate a random sentence from the generator.
+     * @see com.peterson.markovchain.MarkovChain for details.
+     * @return a random sentence from the Markov Chain generator
+     */
+    public String generateSentence()
+    {
+        return markovChain.generateSentence();
+    }
+
+    /**
+     * Generates multiple sentences from the generator.
+     * This is equivalent to calling generateSentence() more than once.
+     * @param numberOfSentences the number of Markov Chain sentences to generate
+     * @return an array of generated Markov chains.
+     */
+    public String[] generateSentences(int numberOfSentences)
+    {
+        String []arr = new String[numberOfSentences];
+        for(int i = 0; i < arr.length; i++)
+            arr[i] = markovChain.generateSentence();
+        return arr;
+    }
 
     public void saveChains()
     {
