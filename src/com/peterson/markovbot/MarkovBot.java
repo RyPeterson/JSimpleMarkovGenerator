@@ -5,6 +5,8 @@ import com.peterson.markovchain.MarkovChain;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An example "bot" that assists in generating and maintaining Markov Chains.
@@ -17,7 +19,7 @@ import java.nio.file.Files;
 public class MarkovBot
 {
     private MarkovChain markovChain;
-    private StringBuilder newData;
+    private List<String> newData;
     private File brainFile;
 
     /**
@@ -28,7 +30,7 @@ public class MarkovBot
     public MarkovBot()
     {
         markovChain = new MarkovChain();
-        newData = new StringBuilder();
+        newData = new ArrayList<>();
         brainFile = null;
     }
 
@@ -94,7 +96,7 @@ public class MarkovBot
     public void addPhrase(String phrase)
     {
         markovChain.addPhrase(phrase);
-        newData.append(phrase).append(System.getProperty("line.separator"));
+        newData.add(phrase);
     }
 
     /**
@@ -145,6 +147,9 @@ public class MarkovBot
 
     public void saveChains()
     {
+        if(brainFile != null)
+        {
 
+        }
     }
 }
