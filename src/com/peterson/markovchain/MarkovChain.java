@@ -31,6 +31,9 @@ public class MarkovChain
     /* Punctuation to end the prase on */
     private static final String PHRASE_END = ".";
 
+    /* data to return if no data exists */
+    private static final String NO_DATA = "???";
+
     //database for the chain
     private Map<String, List<String>> markovChain;
 
@@ -148,6 +151,8 @@ public class MarkovChain
 
 
         next = generate(CHAIN_START);
+        if(next == null)
+            return NO_DATA;
         sentence.append(next).append(" ");
 
         if(next.length() - 1 > 0)
@@ -205,7 +210,7 @@ public class MarkovChain
     private String generate(String seed)
     {
         List<String> word = markovChain.get(seed);
-        if(word != null)
+        if(word != null && word.size() > 0)
             return word.get(rand.nextInt(word.size()));
         else
             return null;
