@@ -32,6 +32,7 @@ public class MarkovBot
     {
         markovChain = new MarkovChain();
         newData = new ArrayList<>();
+        newData.add("\n");
         brainFile = null;
     }
 
@@ -159,6 +160,7 @@ public class MarkovBot
             Files.write(brainFile.toPath(), newData, StandardOpenOption.WRITE, StandardOpenOption.APPEND);
             //clear new data and start fresh
             newData.clear();
+            newData.add("\n");
         }
     }
 }

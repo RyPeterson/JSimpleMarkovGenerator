@@ -79,6 +79,9 @@ public class MarkovChain
      */
     public void addPhrase(String phrase)
     {
+        //check that its not just a new line or carrage return.
+        if(hasWhitespaceError(phrase))
+            return;
         //ensure that the phrase has ending punctuation
         if(!phrase.endsWith(PHRASE_END))
         {
@@ -121,6 +124,14 @@ public class MarkovChain
                 }
             }
         }
+    }
+
+    private boolean hasWhitespaceError(String phrase)
+    {
+        if(phrase.length() > 1)
+            return false;
+        else
+            return true;
     }
 
     /**
