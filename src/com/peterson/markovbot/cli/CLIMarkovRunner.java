@@ -19,6 +19,7 @@ public class CLIMarkovRunner
 
     public static final String OUTPUT_SIGNAL = "talk";
     public static final String END_PROGRAM = "end";
+    public static final String POTENTIAL_SPELLING_DERP = "tlak";
 
     public static void main(String []args)
     {
@@ -128,7 +129,7 @@ public class CLIMarkovRunner
     {
         if(inputLine.equalsIgnoreCase(OUTPUT_SIGNAL))
             System.out.println(bot.generateSentence());
-        else if(!inputLine.equalsIgnoreCase(END_PROGRAM))
+        else if(!inputLine.equalsIgnoreCase(END_PROGRAM) && !inputLine.equalsIgnoreCase(POTENTIAL_SPELLING_DERP))
             bot.addPhrase(inputLine);
     }
 }

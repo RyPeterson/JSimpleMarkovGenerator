@@ -96,8 +96,11 @@ public class MarkovBot
      */
     public void addPhrase(String phrase)
     {
-        markovChain.addPhrase(phrase);
-        newData.add(phrase);
+        if(phrase.length() > 1)
+        {
+            markovChain.addPhrase(phrase);
+            newData.add(phrase);
+        }
     }
 
     /**
