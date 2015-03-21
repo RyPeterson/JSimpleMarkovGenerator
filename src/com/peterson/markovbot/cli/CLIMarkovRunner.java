@@ -4,6 +4,7 @@ import com.peterson.markovbot.MarkovBot;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -95,7 +96,16 @@ public class CLIMarkovRunner
         do
         {
             printMenu();
-            inputLine = scan.nextLine();
+            try
+            {
+                inputLine = scan.nextLine();
+            }
+            catch (NoSuchElementException err)
+            {
+                //99% of the time, this exception will be thrown if the user quits the
+                //program; just signal that the program will end so things are saved proper
+                inputLine = END_PROGRAM;
+            }
             parseInput(inputLine, bot);
 
         }
