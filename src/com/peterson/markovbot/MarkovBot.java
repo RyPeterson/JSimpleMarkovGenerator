@@ -84,8 +84,7 @@ public class MarkovBot
      */
     private void load() throws IOException
     {
-        for(String line : Files.readAllLines(brainFile.toPath()))
-            markovChain.addPhrase(line);
+        Files.readAllLines(brainFile.toPath()).forEach(markovChain::addPhrase);
     }
 
     /**
