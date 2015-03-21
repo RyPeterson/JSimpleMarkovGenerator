@@ -37,6 +37,14 @@ public class CLIMarkovRunner
         Scanner scan = new Scanner(System.in);
 
         runMarkovBot(bot, scan);
+        try
+        {
+            bot.saveNewPhrases();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
         scan.close();
 
     }
