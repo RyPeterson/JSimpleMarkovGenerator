@@ -5,6 +5,7 @@ import com.peterson.markovchain.MarkovChain;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class MarkovBot
     /**
      * Save-state constructor.
      * This creates a MarkovBot that will both read in the entire file to generate a MarkovChain as well as write new data to
-     * a file if the saveChains() method is called.
+     * a file if the saveNewPhrases() method is called.
      * <br/>
      * The precondition contract is such:
      * <li>-The file exists; if not, see MarkovBot(File inFile, boolean createNew)</li>
@@ -63,7 +64,7 @@ public class MarkovBot
      * This does so <b>even if the file already exists</b>, effectively overwriting the contents.
      * The general contracts specified in MarkovBot(File inFile) apply, except for the preconditions if createNew is false.
      * @param inFile the file to save phrases to.
-     * @param createNew
+     * @param createNew true if the file does not exist and needs to be created, false if not
      * @throws IOException if an IOException occurs with creating a file or loading the file.
      */
     public MarkovBot(File inFile, boolean createNew) throws IOException
@@ -145,11 +146,20 @@ public class MarkovBot
         return arr;
     }
 
-    public void saveChains()
+    /**
+     * Save newly found phrases to the file passed at construction.
+     * The contract is that each new phrase is separated by a new line.
+     * After saving, the internal data storage of encountered data is cleared and starts off as empty.
+     * @throws IOException if an IOException occurs when trying to save the data
+     */
+    public void saveNewPhrases() throws IOException
     {
         if(brainFile != null)
         {
-
+            //save to file
+            Files.write(brainFile.toPath(), newData, StandardOpenOption.WRITE, StandardOpenOption.APPEND);
+            //clear new data and start fresh
+            newData.clear();
         }
     }
 }
