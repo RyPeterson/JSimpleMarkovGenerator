@@ -112,7 +112,7 @@ public class CLIMarkovRunner
     }
 
     /*
-    parse what the user enterd
+    parse what the user entered
      */
     private static void parseInput(String inputLine, MarkovBot bot)
     {
