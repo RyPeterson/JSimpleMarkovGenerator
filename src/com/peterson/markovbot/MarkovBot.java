@@ -154,7 +154,8 @@ public class MarkovBot
      */
     public void saveNewPhrases() throws IOException
     {
-        if(brainFile != null)
+        //check to see if something can be saved
+        if(brainFile != null && newData.size() > 1) //remember that annoying '\n' I needed to start with?
         {
             //save to file
             Files.write(brainFile.toPath(), newData, StandardOpenOption.WRITE, StandardOpenOption.APPEND);

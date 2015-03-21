@@ -49,6 +49,9 @@ public class CLIMarkovRunner
 
     }
 
+    /*
+    Parse args[0] to get the input file
+     */
     private static File parseFile(String []args)
     {
         if(args.length == 0)
@@ -59,8 +62,13 @@ public class CLIMarkovRunner
         return new File(args[0]);
     }
 
+    /*
+    parse args[1] to determine if they want a new file to be created
+     */
     private static boolean parseCreateNew(String []args)
     {
+        //fall-through logic; assume that they dont want to create a new one, check the length of the args,
+        //and then parse for the real truth, and assume parse errors are because the user is dumb and screwed up
         boolean createNew = false;
         if(args.length == 2)
         {
@@ -77,6 +85,9 @@ public class CLIMarkovRunner
         return createNew;
     }
 
+    /*
+        Run the core of the program in this method
+     */
     private static void runMarkovBot(MarkovBot bot, Scanner scan)
     {
         System.out.println("Hello, my name is MarkovBot. Please talk to me, and I'll make funny sentences.");
@@ -91,12 +102,18 @@ public class CLIMarkovRunner
         while (inputLine != null && !inputLine.equalsIgnoreCase(END_PROGRAM));
     }
 
+    /*
+    Print out the choices to the user
+     */
     private static void printMenu()
     {
-        System.out.println("\n\nEnter a phrase to teach the bot or 'talk' to hear what it has to say, or enter 'end' to quit");
+        System.out.println("\n\nEnter a phrase to teach the bot or \n'talk' to hear what it has to say, \nor enter 'end' to quit");
         System.out.print(">");
     }
 
+    /*
+    parse what the user enterd
+     */
     private static void parseInput(String inputLine, MarkovBot bot)
     {
         if(inputLine.equalsIgnoreCase(OUTPUT_SIGNAL))
