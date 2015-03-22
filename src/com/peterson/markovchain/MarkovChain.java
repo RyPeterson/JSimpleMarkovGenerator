@@ -85,11 +85,11 @@ public class MarkovChain
         //check that its not just a new line or carrage return.
         if(hasWhitespaceError(phrase))
             return;
+
         //ensure that the phrase has ending punctuation
-        if(!phrase.endsWith(DEFAULT_PHRASE_END))
-        {
+        if(!PUNCTUATION.contains(endChar(phrase)))
             phrase += DEFAULT_PHRASE_END;
-        }
+
 
         String []words = phrase.split(WORD_REGEX);
 
@@ -132,6 +132,11 @@ public class MarkovChain
     private boolean hasWhitespaceError(String phrase)
     {
         return phrase.length() <= 1;
+    }
+
+    private char endChar(String phrase)
+    {
+        return phrase.charAt(phrase.length() - 1);
     }
 
     /**
