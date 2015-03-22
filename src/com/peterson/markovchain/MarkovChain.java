@@ -29,7 +29,7 @@ public class MarkovChain
     private static final String WORD_REGEX = " ";
 
     /* Punctuation to end the phrase on */
-    private static final String PHRASE_END = ".";
+    private static final String DEFAULT_PHRASE_END = ".";
 
     /* a reference to a set that contains punctuation symbols to allow more than '.' to be used to end a phrase*/
     private static final Set<Character> PUNCTUATION = generatePunctuationSet();
@@ -86,9 +86,9 @@ public class MarkovChain
         if(hasWhitespaceError(phrase))
             return;
         //ensure that the phrase has ending punctuation
-        if(!phrase.endsWith(PHRASE_END))
+        if(!phrase.endsWith(DEFAULT_PHRASE_END))
         {
-            phrase += PHRASE_END;
+            phrase += DEFAULT_PHRASE_END;
         }
 
         String []words = phrase.split(WORD_REGEX);
@@ -157,7 +157,7 @@ public class MarkovChain
             //throws an occasional StringIndexOutOfBounds exception
             try
             {
-                while (next.charAt(next.length() - 1) != PHRASE_END.charAt(0))
+                while (next.charAt(next.length() - 1) != DEFAULT_PHRASE_END.charAt(0))
                 {
                     next = generate(next);
                     sentence.append(next).append(" ");
@@ -190,7 +190,7 @@ public class MarkovChain
 
         sentence.append(next).append(" ");
 
-        while(next.charAt(next.length() - 1) != PHRASE_END.charAt(0))
+        while(next.charAt(next.length() - 1) != DEFAULT_PHRASE_END.charAt(0))
         {
             next = generate(next);
             sentence.append(next).append(" ");
