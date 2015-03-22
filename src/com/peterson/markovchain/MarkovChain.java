@@ -28,9 +28,11 @@ public class MarkovChain
     /* Regex to separate words by */
     private static final String WORD_REGEX = " ";
 
-    /* Punctuation to end the prase on */
+    /* Punctuation to end the phrase on */
     private static final String PHRASE_END = ".";
 
+    /* a reference to a set that contains punctuation symbols to allow more than '.' to be used to end a phrase*/
+    private static final Set<Character> PUNCTUATION = generatePunctuationSet();
 
     //database for the chain
     private Map<String, List<String>> markovChain;
@@ -246,5 +248,16 @@ public class MarkovChain
             b.append("\n");
         }
         return b.toString();
+    }
+
+    private static Set<Character> generatePunctuationSet()
+    {
+        Set<Character> punctSet = new HashSet<>(4);
+        punctSet.add('.');
+        punctSet.add('?');
+        punctSet.add('!');
+        punctSet.add(';');
+
+        return punctSet;
     }
 }
