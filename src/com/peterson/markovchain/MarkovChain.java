@@ -162,7 +162,7 @@ public class MarkovChain
             //throws an occasional StringIndexOutOfBounds exception
             try
             {
-                while (next.charAt(next.length() - 1) != DEFAULT_PHRASE_END.charAt(0))
+                while(!PUNCTUATION.contains(next.charAt(next.length() - 1)))
                 {
                     next = generate(next);
                     sentence.append(next).append(" ");
@@ -195,7 +195,7 @@ public class MarkovChain
 
         sentence.append(next).append(" ");
 
-        while(next.charAt(next.length() - 1) != DEFAULT_PHRASE_END.charAt(0))
+        while(!PUNCTUATION.contains(next.charAt(next.length() - 1)))
         {
             next = generate(next);
             sentence.append(next).append(" ");
