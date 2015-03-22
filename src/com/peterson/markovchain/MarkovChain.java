@@ -31,8 +31,6 @@ public class MarkovChain
     /* Punctuation to end the prase on */
     private static final String PHRASE_END = ".";
 
-    /* data to return if no data exists */
-    private static final String NO_DATA = "???";
 
     //database for the chain
     private Map<String, List<String>> markovChain;
@@ -131,10 +129,7 @@ public class MarkovChain
 
     private boolean hasWhitespaceError(String phrase)
     {
-        if(phrase.length() > 1)
-            return false;
-        else
-            return true;
+        return phrase.length() <= 1;
     }
 
     /**
@@ -152,7 +147,7 @@ public class MarkovChain
 
         next = generate(CHAIN_START);
         if(next == null)
-            return NO_DATA;
+            return NO_CHAIN;
         sentence.append(next).append(" ");
 
         if(next.length() - 1 > 0)
