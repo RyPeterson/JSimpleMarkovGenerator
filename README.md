@@ -1,4 +1,4 @@
-A Simple Markov Chain generator in Java.
+A Simple Markov Chain generator in Java
 ========================================
 
 What is a Markov Chain?
