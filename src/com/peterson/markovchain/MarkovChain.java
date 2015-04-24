@@ -37,6 +37,8 @@ public class MarkovChain
     //database for the chain
     private Map<String, List<String>> markovChain;
 
+    private Set<String> suffixSet;
+
     //rng for forming new phrases
     private Random rand;
 
@@ -50,6 +52,7 @@ public class MarkovChain
         markovChain.put(CHAIN_START, new ArrayList<>());
         markovChain.put(CHAIN_END, new ArrayList<>());
         rand = new Random();
+        suffixSet = new HashSet<>();
     }
 
     /**
@@ -99,6 +102,7 @@ public class MarkovChain
             {
                 List<String> starting = markovChain.get(CHAIN_START);
                 starting.add(words[i]);
+                suffixSet.add(words[i]);
                 List<String> suffix = markovChain.get(words[i]);
                 if(suffix == null)
                 {
@@ -186,8 +190,13 @@ public class MarkovChain
      */
     public String generateSentence(String seed)
     {
+        //if the suffix set does not contain the see, then what is the point of starting there?
+        if(!suffixSet.contains(seed))
+            return generateSentence();
+
         StringBuilder sentence = new StringBuilder(seed).append(" ");
         String next;
+
 
         next = generate(seed);
         if(next == null)
