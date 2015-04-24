@@ -92,6 +92,8 @@ public class CLIMarkovRunner
      */
     private static void runMarkovBot(MarkovBot bot, Scanner scan)
     {
+        int count = 0;
+        final int COUNT_PER_PRINT = 5;
         System.out.println("Hello, my name is MarkovBot. Please talk to me, and I'll make funny sentences.");
         String inputLine = null;
         do
@@ -108,6 +110,12 @@ public class CLIMarkovRunner
                 inputLine = END_PROGRAM;
             }
             parseInput(inputLine, bot);
+            count++;
+            if (count >= COUNT_PER_PRINT)
+            {
+                System.out.println(bot.generateSentence());
+                count = 0;
+            }
 
         }
         while (inputLine != null && !inputLine.equalsIgnoreCase(END_PROGRAM));
