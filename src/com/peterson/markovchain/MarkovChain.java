@@ -37,6 +37,7 @@ public class MarkovChain
     //database for the chain
     private Map<String, List<String>> markovChain;
 
+    //set to store the beginning of a sentence so that a particular start word can be used
     private Set<String> suffixSet;
 
     //rng for forming new phrases
