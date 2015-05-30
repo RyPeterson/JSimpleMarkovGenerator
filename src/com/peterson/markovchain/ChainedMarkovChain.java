@@ -93,10 +93,34 @@ public class ChainedMarkovChain implements MarkovChain
         }
     }
 
+    private ChainNode generate(String seed)
+    {
+        List<ChainNode> nodes = markovChain.get(seed);
+        return nodes != null && nodes.size() > 0 ? nodes.get(rand.nextInt(nodes.size())) : null;
+    }
+
     @Override
     public String generateSentence()
     {
-        return null;
+        StringBuilder sentence = new StringBuilder();
+        ChainNode next = generate(CHAIN_START);
+        if(next == null)
+            return NO_CHAIN;
+        String word = next.toString();
+        sentence.append(word).append(" ");
+
+
+        if(word.length() - 1 > 0)
+        {
+            while(!PUNCTUATION.contains(word.charAt(word.length() - 1)))
+            {
+                next = generate(word);
+                word = next.toString();
+                sentence.append(word).append(" ");
+            }
+        }
+
+        return sentence.toString();
     }
 
     @Override
