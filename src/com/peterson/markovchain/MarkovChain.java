@@ -1,5 +1,9 @@
 package com.peterson.markovchain;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author Peterson, Ryan
  *         Created: 5/30/15
@@ -33,5 +37,16 @@ public interface MarkovChain
      * @return a generated phrase using the seed word or NO_CHAIN if a chain could not be started
      */
     String generateSentence(String seed);
+
+    static Set<Character> generatePunctuationSet()
+    {
+        Set<Character> punctSet = new HashSet<>(4);
+        punctSet.add('.');
+        punctSet.add('?');
+        punctSet.add('!');
+        punctSet.add(';');
+
+        return Collections.unmodifiableSet(punctSet);
+    }
 
 }

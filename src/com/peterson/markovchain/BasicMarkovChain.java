@@ -32,7 +32,7 @@ public class BasicMarkovChain implements MarkovChain
     private static final String DEFAULT_PHRASE_END = ".";
 
     /* a reference to a set that contains punctuation symbols to allow more than '.' to be used to end a phrase*/
-    private static final Set<Character> PUNCTUATION = generatePunctuationSet();
+    private static final Set<Character> PUNCTUATION = MarkovChain.generatePunctuationSet();
 
     //database for the chain
     private Map<String, List<String>> markovChain;
@@ -245,14 +245,5 @@ public class BasicMarkovChain implements MarkovChain
         return b.toString();
     }
 
-    private static Set<Character> generatePunctuationSet()
-    {
-        Set<Character> punctSet = new HashSet<>(4);
-        punctSet.add('.');
-        punctSet.add('?');
-        punctSet.add('!');
-        punctSet.add(';');
 
-        return punctSet;
-    }
 }
