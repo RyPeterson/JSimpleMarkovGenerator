@@ -12,7 +12,7 @@ import java.util.*;
  * @author Peterson, Ryan
  *         Created: 3/14/2015
  */
-public class MarkovChain
+public class BasicMarkovChain
 {
     /**
      * Signal that a chain based on an seed could not be generated because its not in the object's database
@@ -47,7 +47,7 @@ public class MarkovChain
      * Construct an empty chain.
      * This just initializes an empty chain in order to add things to it.
      */
-    public MarkovChain()
+    public BasicMarkovChain()
     {
         markovChain = new HashMap<>();
         markovChain.put(CHAIN_START, new ArrayList<>());
@@ -60,7 +60,7 @@ public class MarkovChain
      * Construct a chain with a starting phrase.
      * @param phrase the initial phrase to start with
      */
-    public MarkovChain(String phrase)
+    public BasicMarkovChain(String phrase)
     {
         this();
         addPhrase(phrase);
@@ -70,7 +70,7 @@ public class MarkovChain
      * Generate a chain using a set of initial phrases.
      * @param phrases a list of phrases to initialize the chain with.
      */
-    public MarkovChain(String ...phrases)
+    public BasicMarkovChain(String... phrases)
     {
         this();
         for(String s : phrases)

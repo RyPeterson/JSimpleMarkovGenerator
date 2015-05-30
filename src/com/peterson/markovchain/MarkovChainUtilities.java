@@ -19,9 +19,9 @@ public class MarkovChainUtilities
      * @return a fully constructed MarkovChain object
      * @throws IOException
      */
-    public static MarkovChain generateFromFile(File seed) throws IOException
+    public static BasicMarkovChain generateFromFile(File seed) throws IOException
     {
-        MarkovChain markovChain = new MarkovChain();
+        BasicMarkovChain markovChain = new BasicMarkovChain();
         // <3
         extendChainWithFile(markovChain, seed);
         return markovChain;
@@ -33,7 +33,7 @@ public class MarkovChainUtilities
      * @param seed the file to add data to the markov chain with.
      * @throws IOException
      */
-    public static void extendChainWithFile(MarkovChain markovChain, File seed) throws IOException
+    public static void extendChainWithFile(BasicMarkovChain markovChain, File seed) throws IOException
     {
         BufferedReader reader = Files.newBufferedReader(seed.toPath());
         String line;
@@ -53,9 +53,9 @@ public class MarkovChainUtilities
      * @return a constructed Markov Chain object
      * @throws IOException
      */
-    public static MarkovChain generateFromFile(File seed, String parseRegex) throws IOException
+    public static BasicMarkovChain generateFromFile(File seed, String parseRegex) throws IOException
     {
-        MarkovChain markovChain = new MarkovChain();
+        BasicMarkovChain markovChain = new BasicMarkovChain();
         extendChainWithFile(markovChain, seed, parseRegex);
         return markovChain;
     }
@@ -67,7 +67,7 @@ public class MarkovChainUtilities
      * @param parseRegex the regex to separate sentences by.
      * @throws IOException
      */
-    public static void extendChainWithFile(MarkovChain markovChain, File seed, String parseRegex) throws IOException
+    public static void extendChainWithFile(BasicMarkovChain markovChain, File seed, String parseRegex) throws IOException
     {
         BufferedReader reader = Files.newBufferedReader(seed.toPath());
         String line;
