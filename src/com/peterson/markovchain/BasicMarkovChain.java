@@ -12,7 +12,7 @@ import java.util.*;
  * @author Peterson, Ryan
  *         Created: 3/14/2015
  */
-public class BasicMarkovChain
+public class BasicMarkovChain implements MarkovChain
 {
     /**
      * Signal that a chain based on an seed could not be generated because its not in the object's database

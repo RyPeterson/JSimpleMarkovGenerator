@@ -10,6 +10,6 @@ public interface MarkovChain
 
     String generateSentence();
 
-    String generatreSentence(String seed);
+    String generateSentence(String seed);
 
 }
