@@ -1,6 +1,7 @@
 package com.peterson.markovbot;
 
 import com.peterson.markovchain.BasicMarkovChain;
+import com.peterson.markovchain.MarkovChain;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 public class MarkovBot
 {
-    private BasicMarkovChain markovChain;
+    private MarkovChain markovChain;
     private List<String> newData;
     private File brainFile;
 
