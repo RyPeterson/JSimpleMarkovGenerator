@@ -25,7 +25,7 @@ public interface MarkovChain
     String DEFAULT_PHRASE_END = ".";
 
     /* a reference to a set that contains punctuation symbols to allow more than '.' to be used to end a phrase*/
-    Set<Character> PUNCTUATION = MarkovChain.generatePunctuationSet();
+    Set<Character> PUNCTUATION = MarkovChainUtilities.generatePunctuationSet();
 
     /**
      * Add a single phrase to the database.
@@ -54,26 +54,5 @@ public interface MarkovChain
      * @return a generated phrase using the seed word or NO_CHAIN if a chain could not be started
      */
     String generateSentence(String seed);
-
-    static Set<Character> generatePunctuationSet()
-    {
-        Set<Character> punctSet = new HashSet<>(4);
-        punctSet.add('.');
-        punctSet.add('?');
-        punctSet.add('!');
-        punctSet.add(';');
-
-        return Collections.unmodifiableSet(punctSet);
-    }
-
-    static boolean hasWhitespaceError(String phrase)
-    {
-        return phrase.length() <= 1;
-    }
-
-    static char endChar(String phrase)
-    {
-        return phrase.charAt(phrase.length() - 1);
-    }
 
 }
