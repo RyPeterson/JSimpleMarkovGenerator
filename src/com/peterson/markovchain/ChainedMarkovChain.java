@@ -172,4 +172,16 @@ public class ChainedMarkovChain implements MarkovChain
             return (other instanceof Filter.Chain) && this.word.equals(((ChainNode)other).word);
         }
     }
+
+    public static void main(String []args)
+    {
+        MarkovChain markovChain = new ChainedMarkovChain();
+        markovChain.addPhrase("She sells seashells by the seashore");
+        markovChain.addPhrase("To be or not to be, that is the question");
+        markovChain.addPhrase("Hello, I am Ryan");
+        for(int i = 0; i < 10; i++)
+        {
+            System.out.println(markovChain.generateSentence());
+        }
+    }
 }
