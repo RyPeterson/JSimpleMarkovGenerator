@@ -66,4 +66,14 @@ public interface MarkovChain
         return Collections.unmodifiableSet(punctSet);
     }
 
+    static boolean hasWhitespaceError(String phrase)
+    {
+        return phrase.length() <= 1;
+    }
+
+    static char endChar(String phrase)
+    {
+        return phrase.charAt(phrase.length() - 1);
+    }
+
 }

@@ -61,11 +61,11 @@ public class BasicMarkovChain implements MarkovChain
     public void addPhrase(String phrase)
     {
         //check that its not just a new line or carrage return.
-        if(hasWhitespaceError(phrase))
+        if(MarkovChain.hasWhitespaceError(phrase))
             return;
 
         //ensure that the phrase has ending punctuation
-        if(!PUNCTUATION.contains(endChar(phrase)))
+        if(!PUNCTUATION.contains(MarkovChain.endChar(phrase)))
             phrase += DEFAULT_PHRASE_END;
 
 
@@ -108,15 +108,7 @@ public class BasicMarkovChain implements MarkovChain
         }
     }
 
-    private boolean hasWhitespaceError(String phrase)
-    {
-        return phrase.length() <= 1;
-    }
 
-    private char endChar(String phrase)
-    {
-        return phrase.charAt(phrase.length() - 1);
-    }
 
 
     public String generateSentence()
