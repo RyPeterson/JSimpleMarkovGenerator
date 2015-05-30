@@ -2,7 +2,7 @@ package com.peterson.markovchain;
 
 import com.sun.net.httpserver.Filter;
 
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Peterson, Ryan
@@ -10,8 +10,16 @@ import java.util.Set;
  */
 public class ChainedMarkovChain implements MarkovChain
 {
+    private Map<String, List<ChainNode>> markovChain;
 
-    private static final Set<Character> PUNCTUATION = MarkovChain.generatePunctuationSet();
+    private Random rand;
+
+    public ChainedMarkovChain()
+    {
+        markovChain = new HashMap<>();
+        rand = new Random();
+    }
+
 
     @Override
     public void addPhrase(String phrase)
