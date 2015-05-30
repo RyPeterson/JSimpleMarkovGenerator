@@ -14,25 +14,6 @@ import java.util.*;
  */
 public class BasicMarkovChain implements MarkovChain
 {
-    /**
-     * Signal that a chain based on an seed could not be generated because its not in the object's database
-     */
-    public static final String NO_CHAIN = "-null";
-
-    /* Signal the start of the chain */
-    private static final String CHAIN_START = "$";
-
-    /* Signal the end of the chain */
-    private static final String CHAIN_END = "@";
-
-    /* Regex to separate words by */
-    private static final String WORD_REGEX = " ";
-
-    /* Punctuation to end the phrase on */
-    private static final String DEFAULT_PHRASE_END = ".";
-
-    /* a reference to a set that contains punctuation symbols to allow more than '.' to be used to end a phrase*/
-    private static final Set<Character> PUNCTUATION = MarkovChain.generatePunctuationSet();
 
     //database for the chain
     private Map<String, List<String>> markovChain;
