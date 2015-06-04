@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -79,6 +80,34 @@ public class MarkovBot
         {
             Files.createFile(inFile.toPath());
         }
+    }
+
+    public MarkovBot(boolean concurrent)
+    {
+        markovChain = new BasicMarkovChain(true);
+        newData = Collections.synchronizedList(new ArrayList<>());
+        newData.add("\n");
+        brainFile = null;
+    }
+
+    public MarkovBot(boolean concurrent, File inFile) throws IOException
+    {
+        this(true);
+        brainFile = inFile;
+        load();
+    }
+
+    public MarkovBot(boolean concurrent, File inFile, boolean createNew) throws IOException
+    {
+        this(true);
+        brainFile = inFile;
+        if(!createNew)
+            load();
+        else
+        {
+            Files.createFile(inFile.toPath());
+        }
+
     }
 
     /*
