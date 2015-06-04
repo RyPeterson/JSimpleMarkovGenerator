@@ -82,7 +82,7 @@ public class MarkovBot
         }
     }
 
-    public MarkovBot(boolean concurrent)
+    protected MarkovBot(boolean concurrent)
     {
         markovChain = new BasicMarkovChain(true);
         newData = Collections.synchronizedList(new ArrayList<>());
@@ -90,14 +90,14 @@ public class MarkovBot
         brainFile = null;
     }
 
-    public MarkovBot(boolean concurrent, File inFile) throws IOException
+    protected MarkovBot(boolean concurrent, File inFile) throws IOException
     {
         this(true);
         brainFile = inFile;
         load();
     }
 
-    public MarkovBot(boolean concurrent, File inFile, boolean createNew) throws IOException
+    protected MarkovBot(boolean concurrent, File inFile, boolean createNew) throws IOException
     {
         this(true);
         brainFile = inFile;
