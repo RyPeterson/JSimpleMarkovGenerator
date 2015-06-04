@@ -1,5 +1,6 @@
 package com.peterson.markovbot;
 
+import com.peterson.markovchain.BasicMarkovChain;
 import com.peterson.markovchain.MarkovChain;
 
 import java.io.File;
@@ -30,7 +31,7 @@ public class MarkovBot
      */
     public MarkovBot()
     {
-        markovChain = new MarkovChain();
+        markovChain = new BasicMarkovChain();
         newData = new ArrayList<>();
         newData.add("\n");
         brainFile = null;
@@ -127,7 +128,7 @@ public class MarkovBot
 
     /**
      * Generate a random sentence from the generator.
-     * @see com.peterson.markovchain.MarkovChain for details.
+     * @see BasicMarkovChain for details.
      * @return a random sentence from the Markov Chain generator
      */
     public String generateSentence()
