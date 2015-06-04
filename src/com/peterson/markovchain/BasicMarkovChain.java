@@ -1,6 +1,7 @@
 package com.peterson.markovchain;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Markov Chain Creation Class.
@@ -35,6 +36,20 @@ public class BasicMarkovChain implements MarkovChain
         markovChain.put(CHAIN_END, new ArrayList<>());
         rand = new Random();
         suffixSet = new HashSet<>();
+    }
+
+    /**
+     * Creates an empty chain generator with concurrent internal state.
+     * Instead of the base HashMap, this sets the map to a ConcurrentHashMap
+     * in order to provide a thread safe implementation. This should not be used
+     * in cases where concurrency isn't needed
+     * @param concurrent true to set the instance of the map to a concurrent collection, false otherwise
+     */
+    public BasicMarkovChain(boolean concurrent)
+    {
+        this();
+        if(concurrent)
+            markovChain = new ConcurrentHashMap<>(markovChain);
     }
 
     /**
