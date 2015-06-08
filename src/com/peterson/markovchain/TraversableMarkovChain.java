@@ -106,13 +106,42 @@ public class TraversableMarkovChain implements MarkovChain
     @Override
     public String generateSentence()
     {
-        return null;
+        StringBuilder sentence = new StringBuilder();
+
+        Link next = generate(CHAIN_START);
+        if(next == null)
+            return NO_CHAIN;
+
+        //ahh, the power of toString()...
+        sentence.append(next).append(" ");
+
+        if(next.word.length() - 1 > 0)
+        {
+            while(!PUNCTUATION.contains(MarkovChainUtilities.endChar(next.word)))
+            {
+                next = generate(next);
+                sentence.append(next).append(" ");
+            }
+        }
+
+        return sentence.toString();
     }
 
     @Override
     public String generateSentence(String seed)
     {
         return null;
+    }
+
+    private Link generate(String seed)
+    {
+        List<Link> word = markovChain.get(seed);
+        return word != null ? word.get(rand.nextInt(word.size())) : null;
+    }
+
+    private Link generate(Link seed)
+    {
+        return generate(seed.word);
     }
 
     protected List<Link> newList()
@@ -159,6 +188,7 @@ public class TraversableMarkovChain implements MarkovChain
         mark.addPhrase("She sells sea shells by the sea shore.");
         mark.addPhrase("To be or not to be, that is the question");
         mark.addPhrase("Hello, my name is Ryan!");
-        System.out.println(mark.generateSentence());
+        for(int i = 0; i < 10; i++)
+            System.out.println(mark.generateSentence());
     }
 }
