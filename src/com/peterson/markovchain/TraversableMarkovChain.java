@@ -31,14 +31,76 @@ public class TraversableMarkovChain implements MarkovChain
     protected TraversableMarkovChain(boolean concurrent)
     {
         this();
-        markovChain = Collections.synchronizedMap(markovChain);
+        if(concurrent)
+            markovChain = Collections.synchronizedMap(markovChain);
     }
 
 
     @Override
     public void addPhrase(String phrase)
     {
+        if(MarkovChainUtilities.hasWhitespaceError(phrase))
+            return;
 
+        if(!PUNCTUATION.contains(MarkovChainUtilities.endChar(phrase)))
+            phrase += DEFAULT_PHRASE_END;
+
+        String []words = phrase.split(WORD_REGEX);
+
+        Link nMinus1 = null;
+
+        for(int i = 0; i < words.length; i++)
+        {
+            if(i == 0)
+            {
+                List<Link> starting = markovChain.get(CHAIN_START);
+                Link word = new Link(words[i]);
+                starting.add(word);
+
+                List<Link> suffix = markovChain.get(words[i]);
+                if(suffix == null)
+                {
+                    suffix = newList();
+                    if(i + 1 < words.length)
+                    {
+                        Link next = new Link(words[i + 1]);
+                        next.previous = word;
+                        suffix.add(next);
+                        nMinus1 = next;
+                    }
+                    markovChain.put(words[i], suffix);
+
+                }
+            }
+            else if(i == words.length - 1)
+            {
+                Link end = new Link(words[i]);
+                if(nMinus1 == null)
+                    throw  new NullPointerException("The previous Link was not set");
+                end.previous = nMinus1;
+                markovChain.get(CHAIN_END).add(end);
+            }
+            else
+            {
+                List<Link> suffix = markovChain.get(words[i]);
+                if(suffix == null)
+                {
+                    suffix = newList();
+                    Link word = new Link(words[i + 1]);
+                    word.previous = nMinus1;
+                    nMinus1 = word;
+                    suffix.add(word);
+                    markovChain.put(words[i], suffix);
+                }
+                else
+                {
+                    Link word = new Link(words[i + 1]);
+                    word.previous = nMinus1;
+                    nMinus1 = word;
+                    suffix.add(word);
+                }
+            }
+        }
     }
 
     @Override
