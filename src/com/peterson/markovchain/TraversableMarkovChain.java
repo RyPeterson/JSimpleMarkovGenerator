@@ -191,7 +191,7 @@ public class TraversableMarkovChain implements MarkovChain
      * Class the holds the state of the word.
      * This allows the traversal back one word.
      */
-    private class Link
+    protected class Link
     {
         //link == null means its the head
         Link previous;
