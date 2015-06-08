@@ -152,4 +152,13 @@ public class TraversableMarkovChain implements MarkovChain
             return word;
         }
     }
+
+    public static void main(String []args)
+    {
+        MarkovChain mark = new TraversableMarkovChain();
+        mark.addPhrase("She sells sea shells by the sea shore.");
+        mark.addPhrase("To be or not to be, that is the question");
+        mark.addPhrase("Hello, my name is Ryan!");
+        System.out.println(mark.generateSentence());
+    }
 }

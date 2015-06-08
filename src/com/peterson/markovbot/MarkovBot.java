@@ -2,6 +2,7 @@ package com.peterson.markovbot;
 
 import com.peterson.markovchain.BasicMarkovChain;
 import com.peterson.markovchain.MarkovChain;
+import com.peterson.markovchain.SynchronizedBasicMarkovChain;
 
 import java.io.File;
 import java.io.IOException;
@@ -84,7 +85,7 @@ public class MarkovBot
 
     protected MarkovBot(boolean concurrent)
     {
-        markovChain = new BasicMarkovChain(true);
+        markovChain = new SynchronizedBasicMarkovChain();
         newData = Collections.synchronizedList(new ArrayList<>());
         newData.add("\n");
         brainFile = null;
