@@ -106,13 +106,16 @@ public class TraversableMarkovChain implements MarkovChain
     @Override
     public String generateSentence()
     {
-        StringBuilder sentence = new StringBuilder();
-
         Link next = generate(CHAIN_START);
         if(next == null)
             return NO_CHAIN;
 
-        //ahh, the power of toString()...
+        return runGenerator(next);
+    }
+
+    private String runGenerator(Link next)
+    {
+        StringBuilder sentence = new StringBuilder();
         sentence.append(next).append(" ");
 
         if(next.word.length() - 1 > 0)
