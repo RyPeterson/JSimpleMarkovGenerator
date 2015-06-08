@@ -32,8 +32,8 @@ public class BasicMarkovChain implements MarkovChain
     public BasicMarkovChain()
     {
         markovChain = new HashMap<>();
-        markovChain.put(CHAIN_START, new ArrayList<>());
-        markovChain.put(CHAIN_END, new ArrayList<>());
+        markovChain.put(CHAIN_START, newList());
+        markovChain.put(CHAIN_END, newList());
         rand = new Random();
         suffixSet = new HashSet<>();
     }
@@ -45,7 +45,7 @@ public class BasicMarkovChain implements MarkovChain
      * in cases where concurrency isn't needed
      * @param concurrent true to set the instance of the map to a concurrent collection, false otherwise
      */
-    public BasicMarkovChain(boolean concurrent)
+    protected BasicMarkovChain(boolean concurrent)
     {
         this();
         if(concurrent)
@@ -96,7 +96,7 @@ public class BasicMarkovChain implements MarkovChain
                 List<String> suffix = markovChain.get(words[i]);
                 if(suffix == null)
                 {
-                    suffix = new ArrayList<>();
+                    suffix = newList();
                     if(i + 1 < words.length)
                         suffix.add(words[i + 1]);
                     markovChain.put(words[i], suffix);
@@ -111,7 +111,7 @@ public class BasicMarkovChain implements MarkovChain
                 List<String> suffix = markovChain.get(words[i]);
                 if(suffix == null)
                 {
-                    suffix = new ArrayList<>();
+                    suffix = newList();
                     suffix.add(words[i + 1]);
                     markovChain.put(words[i], suffix);
                 }
@@ -232,6 +232,9 @@ public class BasicMarkovChain implements MarkovChain
         }
         return b.toString();
     }
-
-
+    
+    protected List<String> newList()
+    {
+        return new ArrayList<>();
+    }
 }
