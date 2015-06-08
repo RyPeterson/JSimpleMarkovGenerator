@@ -24,7 +24,7 @@ public class SynchronizedBasicMarkovChain extends BasicMarkovChain
 
     /**
      * Constructs a synchronized version of the generator using an initial set of phrases
-     * @param phrases
+     * @param phrases the initial phrases to seed the generator with
      */
     public SynchronizedBasicMarkovChain(String... phrases)
     {
