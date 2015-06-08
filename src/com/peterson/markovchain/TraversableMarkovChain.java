@@ -1,11 +1,40 @@
 package com.peterson.markovchain;
 
+import java.util.*;
+
 /**
  * @author Peterson, Ryan
  *         Created: 6/8/15
  */
 public class TraversableMarkovChain implements MarkovChain
 {
+    //database for the chain
+    private Map<String, List<Link>> markovChain;
+
+    private Random rand;
+
+    public TraversableMarkovChain()
+    {
+        markovChain = new HashMap<>();
+        markovChain.put(CHAIN_START, newList());
+        markovChain.put(CHAIN_END, newList());
+        rand = new Random();
+    }
+
+    public TraversableMarkovChain(String ...phrases)
+    {
+        this();
+        for(String s : phrases)
+            addPhrase(s);
+    }
+
+    protected TraversableMarkovChain(boolean concurrent)
+    {
+        this();
+        markovChain = Collections.synchronizedMap(markovChain);
+    }
+
+
     @Override
     public void addPhrase(String phrase)
     {
@@ -22,6 +51,11 @@ public class TraversableMarkovChain implements MarkovChain
     public String generateSentence(String seed)
     {
         return null;
+    }
+
+    protected List<Link> newList()
+    {
+        return new ArrayList<>();
     }
 
     /**
