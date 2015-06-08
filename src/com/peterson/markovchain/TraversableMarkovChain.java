@@ -133,6 +133,41 @@ public class TraversableMarkovChain implements MarkovChain
     @Override
     public String generateSentence(String seed)
     {
+        //determine if the seed word is in a chain
+        List<Link> initialList = markovChain.get(seed);
+        if(initialList == null) //if its not, just generate a chain
+            return generateSentence();
+
+        //initialize the Link to search for
+        Link toFind = new Link(seed);
+
+        Link starting = findLink(initialList, toFind);
+
+        //if, for some reason something failed, just return a chain
+        if(starting == null)
+            return generateSentence();
+
+        Link current = starting;
+        Link previous = starting.previous;
+
+        //walk backward
+        while(current.previous != null)
+        {
+            current = previous;
+            previous = previous.previous;
+        }
+        //by now, its at the start of a chain using the seed word
+        return runGenerator(current);
+    }
+
+    private Link findLink(List<Link> linkList, final Link toFind)
+    {
+        for(Link l : linkList)
+        {
+            if(l.sameWord(toFind))
+                return l;
+        }
+
         return null;
     }
 
@@ -183,6 +218,20 @@ public class TraversableMarkovChain implements MarkovChain
         {
             return word;
         }
+
+        public boolean equals(Object other)
+        {
+            return (other instanceof Link && this.word.equals(((Link) other).word));
+        }
+
+        public boolean sameWord(Link other)
+        {
+            if(this.previous != null)
+            {
+                return this.previous.word.equalsIgnoreCase(other.word);
+            }
+            return false;
+        }
     }
 
     public static void main(String []args)
@@ -192,6 +241,6 @@ public class TraversableMarkovChain implements MarkovChain
         mark.addPhrase("To be or not to be, that is the question");
         mark.addPhrase("Hello, my name is Ryan!");
         for(int i = 0; i < 10; i++)
-            System.out.println(mark.generateSentence());
+            System.out.println(mark.generateSentence("sells"));
     }
 }
