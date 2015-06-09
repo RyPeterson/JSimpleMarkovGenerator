@@ -1,6 +1,5 @@
 package tests;
 
-import com.peterson.markovchain.SynchronizedBasicMarkovChain;
 import com.peterson.markovchain.SynchronizedTraversableMarkovChain;
 import org.junit.Assert;
 import org.junit.Before;
