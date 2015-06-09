@@ -75,6 +75,9 @@ public class BasicMarkovChain implements MarkovChain
 
     public void addPhrase(String phrase)
     {
+        if(phrase == null)
+            return;
+
         //check that its not just a new line or carrage return.
         if(MarkovChainUtilities.hasWhitespaceError(phrase))
             return;
