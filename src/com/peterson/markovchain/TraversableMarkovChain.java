@@ -39,6 +39,8 @@ public class TraversableMarkovChain implements MarkovChain
     @Override
     public void addPhrase(String phrase)
     {
+        if(phrase == null)
+            return;
         if(MarkovChainUtilities.hasWhitespaceError(phrase))
             return;
 
