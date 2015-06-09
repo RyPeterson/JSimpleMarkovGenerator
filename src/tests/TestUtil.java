@@ -12,10 +12,11 @@ import java.util.List;
  */
 public class TestUtil
 {
+    public static final String PATH_TO_FILE = "/home/ryan/Desktop/testinput.txt";
+
     public static String []loadFile() throws IOException
     {
-        URL res = TestUtil.class.getResource("testinput.txt");
-        File inFile = new File(res.toString());
+        File inFile = new File(PATH_TO_FILE);
         List<String> lines = Files.readAllLines(inFile.toPath());
         return lines.toArray(new String[lines.size()]);
     }
