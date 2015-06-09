@@ -16,7 +16,7 @@ import java.io.IOException;
  */
 public class BasicMarkovTest
 {
-    private MarkovChain markovChain;
+    protected MarkovChain markovChain;
 
     @Before
     public void setUp()
