@@ -1,14 +1,9 @@
 package tests;
 
-import com.peterson.markovchain.BasicMarkovChain;
-import com.peterson.markovchain.MarkovChain;
 import com.peterson.markovchain.SynchronizedBasicMarkovChain;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import javax.lang.model.util.SimpleElementVisitor6;
-import java.io.IOException;
 import java.util.concurrent.*;
 
 /**
@@ -17,7 +12,7 @@ import java.util.concurrent.*;
  */
 public class SynchronizedBasicMarkovTest extends BasicMarkovTest
 {
-    public static final int NUM_THREADS = 10000;
+    public static final int NUM_THREADS = 100;
 
     @Before
     @Override
@@ -46,60 +41,5 @@ public class SynchronizedBasicMarkovTest extends BasicMarkovTest
             Assert.assertFalse(((SimpleThread)t).exceptionThrown());
         }
 
-    }
-
-
-    private class SimpleThread implements Runnable
-    {
-        private MarkovChain sharedInstance;
-        private CyclicBarrier barrierInstance;
-        private String []phrases;
-        private boolean exceptionThrown;
-
-        public SimpleThread(MarkovChain markInstance, CyclicBarrier barrier)
-        {
-            sharedInstance = markInstance;
-            barrierInstance = barrier;
-            try
-            {
-                phrases = TestUtil.loadFile();
-            }
-            catch (IOException e)
-            {
-                throw new RuntimeException(e);
-            }
-        }
-
-        @Override
-        public void run()
-        {
-            try
-            {
-                barrierInstance.await();
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-            catch (BrokenBarrierException e)
-            {
-                e.printStackTrace();
-            }
-
-            try
-            {
-                for (String s : phrases)
-                    sharedInstance.addPhrase(s);
-            }
-            catch (Exception e)
-            {
-                exceptionThrown = true;
-            }
-        }
-
-        public boolean exceptionThrown()
-        {
-            return exceptionThrown;
-        }
     }
 }
