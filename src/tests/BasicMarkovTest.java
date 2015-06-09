@@ -60,4 +60,101 @@ public class BasicMarkovTest
         }
         Assert.assertFalse(exceptionThrown);
     }
+
+    @Test
+    public void testNullInput()
+    {
+        boolean exceptionThrown = false;
+
+        try
+        {
+            markovChain.addPhrase(null);
+        }
+        catch (NullPointerException e)
+        {
+            exceptionThrown = true;
+        }
+
+        Assert.assertFalse(exceptionThrown);
+    }
+
+    @Test
+    public void testEmptyInput()
+    {
+        boolean exceptionThrown = false;
+
+        try
+        {
+            markovChain.addPhrase("");
+        }
+        catch (StringIndexOutOfBoundsException e)
+        {
+            exceptionThrown = true;
+        }
+
+        Assert.assertFalse(exceptionThrown);
+    }
+
+    @Test
+    public void testSpammedInput()
+    {
+        String []toSpam;
+        try
+        {
+            toSpam = TestUtil.loadFile();
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        boolean exceptionThrown = false;
+        try
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                for (String s : toSpam)
+                    markovChain.addPhrase(s);
+            }
+        }
+        catch (Exception e)
+        {
+            exceptionThrown = true;
+        }
+
+        Assert.assertFalse(exceptionThrown);
+    }
+
+    @Test
+    public void testInputSaved()
+    {
+        try
+        {
+            loadChain();
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        String target = "Ryan";
+
+        boolean foundTarget = false;
+        int missCount = 0;
+
+        for(int i = 0; i < 100; i++)
+        {
+            if(markovChain.generateSentence().contains(target))
+            {
+                foundTarget = true;
+                break;
+            }
+            else
+            {
+                missCount++;
+            }
+        }
+
+        Assert.assertTrue(foundTarget);
+    }
 }
