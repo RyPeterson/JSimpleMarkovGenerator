@@ -176,7 +176,7 @@ public class TraversableMarkovChain implements MarkovChain
     private Link generate(String seed)
     {
         List<Link> word = markovChain.get(seed);
-        return word != null ? word.get(rand.nextInt(word.size())) : null;
+        return word != null && word.size() != 0 ? word.get(rand.nextInt(word.size())) : null;
     }
 
     private Link generate(Link seed)
@@ -243,6 +243,6 @@ public class TraversableMarkovChain implements MarkovChain
         mark.addPhrase("To be or not to be, that is the question");
         mark.addPhrase("Hello, my name is Ryan!");
         for(int i = 0; i < 10; i++)
-            System.out.println(mark.generateSentence("sells"));
+            System.out.println(mark.generateSentence("To"));
     }
 }
