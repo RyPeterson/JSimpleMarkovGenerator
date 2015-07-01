@@ -2,7 +2,6 @@ package tests;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.util.List;
 
@@ -12,7 +11,8 @@ import java.util.List;
  */
 public class TestUtil
 {
-    public static final String PATH_TO_FILE = "/home/ryan/Desktop/testinput.txt";
+    //public static final String PATH_TO_FILE = "/home/ryan/Desktop/testinput.txt";
+    public static final String PATH_TO_FILE = "C:/users/rpete_000/Desktop/testinput.txt";
 
     public static String []loadFile() throws IOException
     {

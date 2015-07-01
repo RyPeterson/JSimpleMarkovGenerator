@@ -77,8 +77,8 @@ public class TraversableMarkovChain implements MarkovChain
             else if(i == words.length - 1)
             {
                 Link end = new Link(words[i]);
-                if(nMinus1 == null)
-                    throw  new NullPointerException("The previous Link was not set");
+//                if(nMinus1 == null)
+//                    throw  new NullPointerException("The previous Link was not set");
                 end.previous = nMinus1;
                 markovChain.get(CHAIN_END).add(end);
             }
