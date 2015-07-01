@@ -6,7 +6,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runners.JUnit4;
 
 import java.io.IOException;
 
@@ -156,5 +155,51 @@ public class BasicMarkovTest
         }
 
         Assert.assertTrue(foundTarget);
+    }
+
+    @Test
+    public void testGenerateOnSeedStart()
+    {
+        testOnSeed("To");
+    }
+
+    public void testGenerateOnSeedMid()
+    {
+        testOnSeed("that");
+    }
+
+    public void testGenerateOnSeedEnd()
+    {
+        testOnSeed("question");
+    }
+
+    public void testGenerateOnSeedNoExistant()
+    {
+        testOnSeed("foobar");
+    }
+
+    public void testGenerateOnNullSeed()
+    {
+        testOnSeed(null);
+    }
+
+    private void testOnSeed(String seed)
+    {
+        String result = null;
+        boolean thrown = false;
+
+        try
+        {
+            result = markovChain.generateSentence(seed);
+        }
+        catch (Exception e)
+        {
+            thrown = true;
+            e.printStackTrace();
+        }
+
+        Assert.assertFalse(thrown);
+        Assert.assertNotNull(result);
+        Assert.assertTrue(result.length() != 0);
     }
 }
