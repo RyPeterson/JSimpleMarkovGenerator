@@ -11,12 +11,12 @@ import java.util.List;
  * @author Peterson, Ryan
  *         Created: 6/8/15
  */
-public class SynchronizedTraversableMarkovChain extends TraversableMarkovChain
+public class ConcurrentTraversableMarkovChain extends TraversableMarkovChain
 {
     /**
      * Constructs the SynchronizedTraversableMarkovChain.
      */
-    public SynchronizedTraversableMarkovChain()
+    public ConcurrentTraversableMarkovChain()
     {
         super(true);
     }

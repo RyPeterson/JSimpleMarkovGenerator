@@ -1,6 +1,6 @@
 package tests;
 
-import com.peterson.markovchain.SynchronizedTraversableMarkovChain;
+import com.peterson.markovchain.ConcurrentTraversableMarkovChain;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class SynchronizedTraversalTest extends TraverseableChainTest
     @Override
     public void setUp()
     {
-        markovChain = new SynchronizedTraversableMarkovChain();
+        markovChain = new ConcurrentTraversableMarkovChain();
     }
 
     @Test

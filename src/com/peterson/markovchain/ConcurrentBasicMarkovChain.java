@@ -10,14 +10,14 @@ import java.util.List;
  * @author Peterson, Ryan
  *         Created: 6/8/15
  */
-public class SynchronizedBasicMarkovChain extends BasicMarkovChain
+public class ConcurrentBasicMarkovChain extends BasicMarkovChain
 {
     /**
      * Constructs a synchronized version of the generator.
      * This provides all the basic functionality to generate
      * markov chains, as described in the parent class.
      */
-    public SynchronizedBasicMarkovChain()
+    public ConcurrentBasicMarkovChain()
     {
         super(true);
     }
@@ -26,7 +26,7 @@ public class SynchronizedBasicMarkovChain extends BasicMarkovChain
      * Constructs a synchronized version of the generator using an initial set of phrases
      * @param phrases the initial phrases to seed the generator with
      */
-    public SynchronizedBasicMarkovChain(String... phrases)
+    public ConcurrentBasicMarkovChain(String... phrases)
     {
         super(true);
         for(String s : phrases)
