@@ -1,6 +1,6 @@
 package tests;
 
-import com.peterson.markovchain.SynchronizedBasicMarkovChain;
+import com.peterson.markovchain.ConcurrentBasicMarkovChain;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +18,7 @@ public class SynchronizedBasicMarkovTest extends BasicMarkovTest
     @Override
     public void setUp()
     {
-        markovChain = new SynchronizedBasicMarkovChain();
+        markovChain = new ConcurrentBasicMarkovChain();
     }
 
     @Test
