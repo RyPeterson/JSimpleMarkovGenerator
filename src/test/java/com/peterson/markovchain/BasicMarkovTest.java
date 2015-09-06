@@ -1,7 +1,5 @@
-package tests;
+package com.peterson.markovchain;
 
-import com.peterson.markovchain.BasicMarkovChain;
-import com.peterson.markovchain.MarkovChain;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

@@ -1,4 +1,4 @@
-package tests;
+package com.peterson.markovchain;
 
 import java.io.File;
 import java.io.IOException;

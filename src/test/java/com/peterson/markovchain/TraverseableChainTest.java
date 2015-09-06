@@ -1,6 +1,5 @@
-package tests;
+package com.peterson.markovchain;
 
-import com.peterson.markovchain.TraversableMarkovChain;
 import org.junit.Before;
 
 /**

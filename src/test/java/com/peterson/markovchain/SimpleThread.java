@@ -1,6 +1,4 @@
-package tests;
-
-import com.peterson.markovchain.MarkovChain;
+package com.peterson.markovchain;
 
 import java.io.IOException;
 import java.util.concurrent.BrokenBarrierException;

@@ -1,10 +1,13 @@
-package tests;
+package com.peterson.markovchain;
 
-import com.peterson.markovchain.ConcurrentBasicMarkovChain;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import java.util.concurrent.*;
+
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author Peterson, Ryan
