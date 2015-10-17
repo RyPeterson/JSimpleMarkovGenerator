@@ -12,3 +12,10 @@ the example given at the start of this section was generated from a sentence fro
 Markov Chains, adjusted to make tense sense: "Markov processes can be used to generate superficially real-looking text given a sample document"
 and the movie intermission song: "lets all go to the lobby and get ourselves a drink", with the actual result of the generator
 ironically summarizing what it does.
+
+-------------------------------------------------
+
+Couple notes about this:
+Yes, I know the pom file is probably useless. 
+Yes, I know the concurrent classes probably would fail epically.
+If this bothers you, fork the heck out of this and fix it. :)
