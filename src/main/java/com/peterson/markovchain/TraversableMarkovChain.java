@@ -233,21 +233,7 @@ public class TraversableMarkovChain implements MarkovChain
 
         public boolean sameWord(Link other)
         {
-            if(this.previous != null)
-            {
-                return this.previous.word.equalsIgnoreCase(other.word);
-            }
-            return false;
+            return this.previous != null && this.previous.word.equalsIgnoreCase(other.word);
         }
-    }
-
-    public static void main(String []args)
-    {
-        MarkovChain mark = new TraversableMarkovChain();
-        mark.addPhrase("She sells sea shells by the sea shore.");
-        mark.addPhrase("To be or not to be, that is the question");
-        mark.addPhrase("Hello, my name is Ryan!");
-        for(int i = 0; i < 10; i++)
-            System.out.println(mark.generateSentence("To"));
     }
 }
