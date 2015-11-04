@@ -1,7 +1,5 @@
 package com.peterson.markovchain;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -19,7 +17,7 @@ public interface MarkovChain
     String CHAIN_END = "@";
 
     /* Regex to separate words by */
-    String WORD_REGEX = " ";
+    String WORD_REGEX = "\\s+";
 
     /* Punctuation to end the phrase on */
     String DEFAULT_PHRASE_END = ".";

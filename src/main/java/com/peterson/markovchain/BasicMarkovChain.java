@@ -1,6 +1,7 @@
 package com.peterson.markovchain;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Markov Chain Creation Class.
@@ -24,38 +25,30 @@ public class BasicMarkovChain implements MarkovChain
     //rng for forming new phrases
     private transient Random rand;
 
+    private Pattern regexPattern;
+
     /**
      * Construct an empty chain.
      * This just initializes an empty chain in order to add things to it.
      */
     public BasicMarkovChain()
     {
+        this(Pattern.compile(WORD_REGEX));
+    }
+
+    public BasicMarkovChain(Pattern regexPattern)
+    {
         markovChain = new HashMap<>();
         markovChain.put(CHAIN_START, newList());
         markovChain.put(CHAIN_END, newList());
         rand = new Random();
         suffixSet = new HashSet<>();
+        setRegexPattern(regexPattern);
     }
 
-    /**
-     * Construct a chain with a starting phrase.
-     * @param phrase the initial phrase to start with
-     */
-    public BasicMarkovChain(String phrase)
+    public void setRegexPattern(Pattern pattern)
     {
-        this();
-        addPhrase(phrase);
-    }
-
-    /**
-     * Generate a chain using a set of initial phrases.
-     * @param phrases a list of phrases to initialize the chain with.
-     */
-    public BasicMarkovChain(String... phrases)
-    {
-        this();
-        for(String s : phrases)
-            addPhrase(s);
+        this.regexPattern = pattern;
     }
 
     public void addPhrase(String phrase)
@@ -72,7 +65,7 @@ public class BasicMarkovChain implements MarkovChain
             phrase += DEFAULT_PHRASE_END;
 
 
-        String []words = phrase.split(WORD_REGEX);
+        String []words = regexPattern.split(phrase);
 
         for(int i = 0; i < words.length; i++)
         {

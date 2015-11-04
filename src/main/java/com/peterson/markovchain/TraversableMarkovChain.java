@@ -1,6 +1,7 @@
 package com.peterson.markovchain;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * @author Peterson, Ryan
@@ -13,20 +14,27 @@ public class TraversableMarkovChain implements MarkovChain
 
     private transient Random rand;
 
+    private Pattern regexPattern;
+
     public TraversableMarkovChain()
+    {
+        this(Pattern.compile(WORD_REGEX));
+    }
+
+    public TraversableMarkovChain(Pattern regexPattern)
     {
         markovChain = new HashMap<>();
         markovChain.put(CHAIN_START, newList());
         markovChain.put(CHAIN_END, newList());
         rand = new Random();
+        setRegexPattern(regexPattern);
     }
 
-    public TraversableMarkovChain(String ...phrases)
+    public void setRegexPattern(Pattern pattern)
     {
-        this();
-        for(String s : phrases)
-            addPhrase(s);
+        this.regexPattern = pattern;
     }
+
 
 
     @Override
@@ -40,7 +48,7 @@ public class TraversableMarkovChain implements MarkovChain
         if(!PUNCTUATION.contains(MarkovChainUtilities.endChar(phrase)))
             phrase += DEFAULT_PHRASE_END;
 
-        String []words = phrase.split(WORD_REGEX);
+        String []words = regexPattern.split(phrase);
 
         Link nMinus1 = null;
 
