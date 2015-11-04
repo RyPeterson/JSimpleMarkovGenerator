@@ -177,6 +177,10 @@ public class BasicMarkovChain implements MarkovChain
      */
     private String generate(String seed)
     {
+        if(rand == null)
+        {
+            rand = new Random();
+        }
         List<String> word = markovChain.get(seed);
         if(word != null && word.size() > 0)
             return word.get(rand.nextInt(word.size()));

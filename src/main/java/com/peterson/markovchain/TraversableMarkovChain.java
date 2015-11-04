@@ -168,6 +168,10 @@ public class TraversableMarkovChain implements MarkovChain
 
     private Link generate(String seed)
     {
+        if(rand == null)
+        {
+            rand = new Random();
+        }
         List<Link> word = markovChain.get(seed);
         return word != null && word.size() != 0 ? word.get(rand.nextInt(word.size())) : null;
     }
