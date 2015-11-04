@@ -11,7 +11,7 @@ public class TraversableMarkovChain implements MarkovChain
     //database for the chain
     protected Map<String, List<Link>> markovChain;
 
-    private Random rand;
+    private transient Random rand;
 
     public TraversableMarkovChain()
     {

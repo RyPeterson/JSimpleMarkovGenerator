@@ -22,7 +22,7 @@ public class BasicMarkovChain implements MarkovChain
     private Set<String> suffixSet;
 
     //rng for forming new phrases
-    private Random rand;
+    private transient Random rand;
 
     /**
      * Construct an empty chain.
