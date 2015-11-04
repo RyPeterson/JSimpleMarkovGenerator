@@ -1,6 +1,5 @@
 package com.peterson.markovchain;
 
-import java.io.IOException;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
@@ -19,14 +18,8 @@ public class SimpleThread implements Runnable
     {
         sharedInstance = markInstance;
         barrierInstance = barrier;
-        try
-        {
-            phrases = TestUtil.loadFile();
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
-        }
+        phrases = TestUtil.getTestData();
+
     }
 
     @Override

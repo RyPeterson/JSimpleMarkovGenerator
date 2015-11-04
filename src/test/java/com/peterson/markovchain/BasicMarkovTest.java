@@ -29,7 +29,7 @@ public class BasicMarkovTest
 
     private void loadChain() throws IOException
     {
-        String []phrases = TestUtil.loadFile();
+        String []phrases = TestUtil.getTestData();
         for(String s : phrases)
             markovChain.addPhrase(s);
     }
@@ -96,14 +96,9 @@ public class BasicMarkovTest
     public void testSpammedInput()
     {
         String []toSpam;
-        try
-        {
-            toSpam = TestUtil.loadFile();
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
-        }
+
+        toSpam = TestUtil.getTestData();
+
 
         boolean exceptionThrown = false;
         try
@@ -139,7 +134,7 @@ public class BasicMarkovTest
         boolean foundTarget = false;
         int missCount = 0;
 
-        for(int i = 0; i < 100; i++)
+        for(int i = 0; i < 1000; i++)
         {
             if(markovChain.generateSentence().contains(target))
             {
