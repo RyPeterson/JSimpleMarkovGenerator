@@ -3,6 +3,7 @@ package com.peterson.markovchain;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Extension of the BasicMarkovChain to provide synchronized access to the generator.
@@ -19,7 +20,8 @@ public class ConcurrentBasicMarkovChain extends BasicMarkovChain
      */
     public ConcurrentBasicMarkovChain()
     {
-        super(true);
+        super();
+        super.markovChain = new ConcurrentHashMap<>();
     }
 
     /**
@@ -28,7 +30,7 @@ public class ConcurrentBasicMarkovChain extends BasicMarkovChain
      */
     public ConcurrentBasicMarkovChain(String... phrases)
     {
-        super(true);
+        this();
         for(String s : phrases)
             super.addPhrase(s);
     }

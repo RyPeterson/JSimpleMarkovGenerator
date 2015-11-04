@@ -3,6 +3,7 @@ package com.peterson.markovchain;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A basic synchronized version of the TraversableMarkovChain.
@@ -18,7 +19,8 @@ public class ConcurrentTraversableMarkovChain extends TraversableMarkovChain
      */
     public ConcurrentTraversableMarkovChain()
     {
-        super(true);
+        super();
+        super.markovChain = new ConcurrentHashMap<>();
     }
 
     @Override

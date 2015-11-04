@@ -9,7 +9,7 @@ import java.util.*;
 public class TraversableMarkovChain implements MarkovChain
 {
     //database for the chain
-    private Map<String, List<Link>> markovChain;
+    protected Map<String, List<Link>> markovChain;
 
     private Random rand;
 
@@ -26,13 +26,6 @@ public class TraversableMarkovChain implements MarkovChain
         this();
         for(String s : phrases)
             addPhrase(s);
-    }
-
-    protected TraversableMarkovChain(boolean concurrent)
-    {
-        this();
-        if(concurrent)
-            markovChain = Collections.synchronizedMap(markovChain);
     }
 
 
