@@ -1,9 +1,8 @@
 package com.peterson.markovchain;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Extension of the BasicMarkovChain to provide synchronized access to the generator.
@@ -38,6 +37,7 @@ public class ConcurrentBasicMarkovChain extends BasicMarkovChain
     @Override
     protected List<String> newList()
     {
-        return Collections.synchronizedList(new ArrayList<>());
+        //lord have mercy
+        return new CopyOnWriteArrayList<>();
     }
 }
