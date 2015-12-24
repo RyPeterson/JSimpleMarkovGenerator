@@ -56,53 +56,65 @@ public class TraversableMarkovChain implements MarkovChain
         {
             if(i == 0)
             {
-                List<Link> starting = markovChain.get(CHAIN_START);
-                Link word = new Link(words[i]);
-                starting.add(word);
-
-                List<Link> suffix = markovChain.get(words[i]);
-                if(suffix == null)
-                {
-                    suffix = newList();
-                    if(i + 1 < words.length)
-                    {
-                        Link next = new Link(words[i + 1]);
-                        next.previous = word;
-                        suffix.add(next);
-                        nMinus1 = next;
-                    }
-                    markovChain.put(words[i], suffix);
-
-                }
+                putHead(words[i], i + 1 < words.length ? words[i + 1] : null, nMinus1);
             }
             else if(i == words.length - 1)
             {
-                Link end = new Link(words[i]);
-//                if(nMinus1 == null)
-//                    throw  new NullPointerException("The previous Link was not set");
-                end.previous = nMinus1;
-                markovChain.get(CHAIN_END).add(end);
+                putEnd(words[i], nMinus1);
             }
             else
             {
-                List<Link> suffix = markovChain.get(words[i]);
-                if(suffix == null)
-                {
-                    suffix = newList();
-                    Link word = new Link(words[i + 1]);
-                    word.previous = nMinus1;
-                    nMinus1 = word;
-                    suffix.add(word);
-                    markovChain.put(words[i], suffix);
-                }
-                else
-                {
-                    Link word = new Link(words[i + 1]);
-                    word.previous = nMinus1;
-                    nMinus1 = word;
-                    suffix.add(word);
-                }
+                put(words[i], words[i + 1], nMinus1);
             }
+        }
+    }
+
+    protected void putHead(String word, String next, Link prev)
+    {
+        List<Link> starting = markovChain.get(CHAIN_START);
+        Link wordLink = new Link(word);
+        starting.add(wordLink);
+
+        List<Link> suffix = markovChain.get(word);
+        if(suffix == null)
+        {
+            suffix = newList();
+            if(next != null)
+            {
+                Link nextLink = new Link(next);
+                nextLink.previous = wordLink;
+                suffix.add(nextLink);
+                prev = nextLink;
+            }
+            markovChain.put(word, suffix);
+        }
+    }
+
+    protected void putEnd(String word, Link prev)
+    {
+        Link end = new Link(word);
+        end.previous = prev;
+        markovChain.get(CHAIN_END).add(end);
+    }
+
+    protected void put(String word, String next, Link prev)
+    {
+        List<Link> suffix = markovChain.get(word);
+        if(suffix == null)
+        {
+            suffix = newList();
+            Link wordLink = new Link(next);
+            wordLink.previous = prev;
+            prev = wordLink;
+            suffix.add(wordLink);
+            markovChain.put(word, suffix);
+        }
+        else
+        {
+            Link wordLink = new Link(next);
+            wordLink.previous = prev;
+            prev = wordLink;
+            suffix.add(wordLink);
         }
     }
 
