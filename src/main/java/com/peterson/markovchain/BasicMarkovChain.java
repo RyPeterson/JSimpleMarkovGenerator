@@ -27,6 +27,10 @@ public class BasicMarkovChain implements MarkovChain
 
     private Pattern regexPattern;
 
+    private Object headLock = new Object();
+    private Object bodyLock = new Object();
+    private Object tailLock = new Object();
+
     /**
      * Construct an empty chain.
      * This just initializes an empty chain in order to add things to it.
@@ -206,7 +210,6 @@ public class BasicMarkovChain implements MarkovChain
     protected void putHead(String word, String next)
     {
         List<String> starting = markovChain.get(CHAIN_START);
-        starting.add(word);
         suffixSet.add(word);
         List<String> suffix = markovChain.get(word);
         if(suffix == null)
@@ -229,12 +232,8 @@ public class BasicMarkovChain implements MarkovChain
         if(suffix == null)
         {
             suffix = newList();
-            suffix.add(next);
             markovChain.put(word, suffix);
         }
-        else
-        {
-            suffix.add(next);
-        }
+        suffix.add(next);
     }
 }

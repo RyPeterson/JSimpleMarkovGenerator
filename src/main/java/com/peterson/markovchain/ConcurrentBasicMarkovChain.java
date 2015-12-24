@@ -20,7 +20,7 @@ public class ConcurrentBasicMarkovChain extends BasicMarkovChain
     public ConcurrentBasicMarkovChain()
     {
         super();
-        super.markovChain = new ConcurrentHashMap<>();
+        super.markovChain = new ConcurrentHashMap<>(super.markovChain);
     }
 
     /**

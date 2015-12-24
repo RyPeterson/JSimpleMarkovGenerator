@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Random;
 
 /**
  * @author Peterson, Ryan
@@ -14,6 +15,7 @@ import java.io.IOException;
 public class BasicMarkovTest
 {
     protected MarkovChain markovChain;
+    private static Random rand = new Random();
 
     @Before
     public void setUp()
@@ -194,5 +196,53 @@ public class BasicMarkovTest
         Assert.assertFalse(thrown);
         Assert.assertNotNull(result);
         Assert.assertTrue(result.length() != 0);
+    }
+
+    @Test
+    public void loadTest()
+    {
+        final int chunkMult = 10;
+        int size = 10;
+
+        for(int i = 0; i < 4; i++) //watch i unless you want to be here a while...
+        {
+            for(int j = 0; j < size; j++)
+            {
+                markovChain.addPhrase(generateSentence());
+            }
+
+            for(int j = 0; j < size; j++)
+            {
+                String temp = markovChain.generateSentence();
+                Assert.assertNotNull(temp);
+                Assert.assertTrue(temp.length() > 0);
+            }
+
+            size *= chunkMult;
+        }
+    }
+
+    private String genString()
+    {
+        final int stringLen = rand.nextInt(50);
+        char[] string = new char[stringLen];
+
+        for(int i = 0; i < stringLen; i++)
+        {
+            string[i] = (char)(rand.nextInt(26) + 65);
+        }
+
+        return new String(string);
+    }
+
+    private String generateSentence()
+    {
+        final int sentenceLen = rand.nextInt(100) + 50;
+        StringBuilder b = new StringBuilder();
+        for(int i = 0; i < sentenceLen; i++)
+        {
+            b.append(genString()).append(" ");
+        }
+        return b.toString().trim();
     }
 }

@@ -20,7 +20,7 @@ public class ConcurrentTraversableMarkovChain extends TraversableMarkovChain
     public ConcurrentTraversableMarkovChain()
     {
         super();
-        super.markovChain = new ConcurrentHashMap<>();
+        super.markovChain = new ConcurrentHashMap<>(super.markovChain);
     }
 
     @Override
