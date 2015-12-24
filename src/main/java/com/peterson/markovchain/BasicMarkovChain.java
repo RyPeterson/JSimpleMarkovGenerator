@@ -71,35 +71,15 @@ public class BasicMarkovChain implements MarkovChain
         {
             if(i == 0)
             {
-                List<String> starting = markovChain.get(CHAIN_START);
-                starting.add(words[i]);
-                suffixSet.add(words[i]);
-                List<String> suffix = markovChain.get(words[i]);
-                if(suffix == null)
-                {
-                    suffix = newList();
-                    if(i + 1 < words.length)
-                        suffix.add(words[i + 1]);
-                    markovChain.put(words[i], suffix);
-                }
+                putHead(words[i], i + 1 < words.length ? words[i + 1] : null);
             }
             else if(i == words.length - 1)
             {
-                markovChain.get(CHAIN_END).add(words[i]);
+                putEnd(words[i]);
             }
             else
             {
-                List<String> suffix = markovChain.get(words[i]);
-                if(suffix == null)
-                {
-                    suffix = newList();
-                    suffix.add(words[i + 1]);
-                    markovChain.put(words[i], suffix);
-                }
-                else
-                {
-                    suffix.add(words[i + 1]);
-                }
+                put(words[i], words[i + 1]);
             }
         }
     }
@@ -221,5 +201,40 @@ public class BasicMarkovChain implements MarkovChain
     protected List<String> newList()
     {
         return new ArrayList<>();
+    }
+
+    protected void putHead(String word, String next)
+    {
+        List<String> starting = markovChain.get(CHAIN_START);
+        starting.add(word);
+        suffixSet.add(word);
+        List<String> suffix = markovChain.get(word);
+        if(suffix == null)
+        {
+            suffix = newList();
+            if(next != null)
+                suffix.add(next);
+            markovChain.put(word, suffix);
+        }
+    }
+
+    protected void putEnd(String word)
+    {
+        markovChain.get(CHAIN_END).add(word);
+    }
+
+    protected void put(String word, String next)
+    {
+        List<String> suffix = markovChain.get(word);
+        if(suffix == null)
+        {
+            suffix = newList();
+            suffix.add(next);
+            markovChain.put(word, suffix);
+        }
+        else
+        {
+            suffix.add(next);
+        }
     }
 }
