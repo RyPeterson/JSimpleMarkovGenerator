@@ -27,9 +27,7 @@ public class BasicMarkovChain implements MarkovChain
 
     private Pattern regexPattern;
 
-    private Object headLock = new Object();
-    private Object bodyLock = new Object();
-    private Object tailLock = new Object();
+    private WordTransformer transformer;
 
     /**
      * Construct an empty chain.
@@ -48,11 +46,17 @@ public class BasicMarkovChain implements MarkovChain
         rand = new Random();
         suffixSet = new HashSet<>();
         setRegexPattern(regexPattern);
+        setTransformer(new EmptyTransformer());
     }
 
     public void setRegexPattern(Pattern pattern)
     {
         this.regexPattern = pattern;
+    }
+
+    public void setTransformer(WordTransformer transformer)
+    {
+        this.transformer = transformer;
     }
 
     public void addPhrase(String phrase)
@@ -210,6 +214,7 @@ public class BasicMarkovChain implements MarkovChain
     protected void putHead(String word, String next)
     {
         List<String> starting = markovChain.get(CHAIN_START);
+        starting.add(word);
         suffixSet.add(word);
         List<String> suffix = markovChain.get(word);
         if(suffix == null)
