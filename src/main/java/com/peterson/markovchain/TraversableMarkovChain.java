@@ -7,14 +7,10 @@ import java.util.regex.Pattern;
  * @author Peterson, Ryan
  *         Created: 6/8/15
  */
-public class TraversableMarkovChain implements MarkovChain
+public class TraversableMarkovChain extends AbstractMarkovChain
 {
     //database for the chain
     protected Map<String, List<Link>> markovChain;
-
-    private transient Random rand;
-
-    private Pattern regexPattern;
 
     public TraversableMarkovChain()
     {
@@ -26,15 +22,9 @@ public class TraversableMarkovChain implements MarkovChain
         markovChain = new HashMap<>();
         markovChain.put(CHAIN_START, newList());
         markovChain.put(CHAIN_END, newList());
-        rand = new Random();
-        setRegexPattern(regexPattern);
+        super.setRand(new Random());
+        super.setSplitPattern(regexPattern);
     }
-
-    public void setRegexPattern(Pattern pattern)
-    {
-        this.regexPattern = pattern;
-    }
-
 
 
     @Override
@@ -48,7 +38,7 @@ public class TraversableMarkovChain implements MarkovChain
         if(!PUNCTUATION.contains(MarkovChainUtilities.endChar(phrase)))
             phrase += DEFAULT_PHRASE_END;
 
-        String []words = regexPattern.split(phrase);
+        String []words = super.splitPattern.split(phrase);
 
         Link nMinus1 = null;
 
@@ -188,12 +178,8 @@ public class TraversableMarkovChain implements MarkovChain
 
     private Link generate(String seed)
     {
-        if(rand == null)
-        {
-            rand = new Random();
-        }
         List<Link> word = markovChain.get(seed);
-        return word != null && word.size() != 0 ? word.get(rand.nextInt(word.size())) : null;
+        return word != null && word.size() != 0 ? word.get(super.randInt(word.size())) : null;
     }
 
     private Link generate(Link seed)

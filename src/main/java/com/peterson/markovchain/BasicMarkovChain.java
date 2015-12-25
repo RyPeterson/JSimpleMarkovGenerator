@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  * @author Peterson, Ryan
  *         Created: 3/14/2015
  */
-public class BasicMarkovChain implements MarkovChain
+public class BasicMarkovChain extends AbstractMarkovChain
 {
 
     //database for the chain
@@ -21,13 +21,6 @@ public class BasicMarkovChain implements MarkovChain
 
     //set to store the beginning of a sentence so that a particular start word can be used
     private Set<String> suffixSet;
-
-    //rng for forming new phrases
-    private transient Random rand;
-
-    private Pattern regexPattern;
-
-    private WordTransformer transformer;
 
     /**
      * Construct an empty chain.
@@ -45,18 +38,8 @@ public class BasicMarkovChain implements MarkovChain
         markovChain.put(CHAIN_END, newList());
         rand = new Random();
         suffixSet = new HashSet<>();
-        setRegexPattern(regexPattern);
-        setTransformer(new EmptyTransformer());
-    }
-
-    public void setRegexPattern(Pattern pattern)
-    {
-        this.regexPattern = pattern;
-    }
-
-    public void setTransformer(WordTransformer transformer)
-    {
-        this.transformer = transformer;
+        super.setSplitPattern(regexPattern);
+        super.setWordTransformer(new EmptyTransformer());
     }
 
     public void addPhrase(String phrase)
@@ -73,7 +56,7 @@ public class BasicMarkovChain implements MarkovChain
             phrase += DEFAULT_PHRASE_END;
 
 
-        String []words = regexPattern.split(phrase);
+        String []words = super.splitPattern.split(phrase);
 
         for(int i = 0; i < words.length; i++)
         {
@@ -158,13 +141,9 @@ public class BasicMarkovChain implements MarkovChain
      */
     private String generate(String seed)
     {
-        if(rand == null)
-        {
-            rand = new Random();
-        }
         List<String> word = markovChain.get(seed);
         if(word != null && word.size() > 0)
-            return word.get(rand.nextInt(word.size()));
+            return word.get(super.randInt(word.size()));
         else
             return null;
     }
