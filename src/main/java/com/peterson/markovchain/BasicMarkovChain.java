@@ -91,18 +91,10 @@ public class BasicMarkovChain extends AbstractMarkovChain
 
         if(next.length() - 1 > 0)
         {
-            //throws an occasional StringIndexOutOfBounds exception
-            try
+            while(!PUNCTUATION.contains(next.charAt(next.length() - 1)))
             {
-                while(!PUNCTUATION.contains(next.charAt(next.length() - 1)))
-                {
-                    next = generate(next);
-                    sentence.append(next).append(" ");
-                }
-            }
-            catch(StringIndexOutOfBoundsException sioobe)
-            {
-                //do nothing
+                next = generate(next);
+                sentence.append(next).append(" ");
             }
         }
         return sentence.toString();
