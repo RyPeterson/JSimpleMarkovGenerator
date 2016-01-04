@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Pattern;
 
 /**
  * A basic synchronized version of the TraversableMarkovChain.
@@ -27,5 +28,15 @@ public class ConcurrentTraversableMarkovChain extends TraversableMarkovChain
     protected List<Link> newList()
     {
         return Collections.synchronizedList(new ArrayList<>());
+    }
+
+    @Override
+    public MarkovChain copy()
+    {
+        final Pattern pcopy = Pattern.compile(super.splitPattern.pattern());
+        TraversableMarkovChain copy = new TraversableMarkovChain(pcopy);
+        copy.markovChain = new ConcurrentHashMap<>(this.markovChain);
+        copy.transformer = this.transformer;
+        return copy;
     }
 }

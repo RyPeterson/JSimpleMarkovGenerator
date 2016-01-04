@@ -53,4 +53,12 @@ public interface MarkovChain
      */
     String generateSentence(String seed);
 
+    /**
+     * Get a deep copy of this MarkovChain instance.
+     * It doesn't technically need to be deep, but really should be
+     * @return a deep copy of this Markov Chain
+     */
+    MarkovChain copy();
+
+
 }

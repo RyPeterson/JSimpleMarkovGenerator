@@ -20,7 +20,7 @@ public class BasicMarkovChain extends AbstractMarkovChain
     protected Map<String, List<String>> markovChain;
 
     //set to store the beginning of a sentence so that a particular start word can be used
-    private Set<String> suffixSet;
+    protected Set<String> suffixSet;
 
     /**
      * Construct an empty chain.
@@ -123,6 +123,18 @@ public class BasicMarkovChain extends AbstractMarkovChain
             sentence.append(next).append(" ");
         }
         return sentence.toString();
+    }
+
+    @Override
+    public MarkovChain copy()
+    {
+        final Pattern pcopy = Pattern.compile(super.splitPattern.pattern());
+        BasicMarkovChain copy = new BasicMarkovChain(pcopy);
+        copy.suffixSet = new HashSet<>(this.suffixSet);
+        copy.markovChain = new HashMap<>(this.markovChain);
+        copy.transformer = this.transformer;
+
+        return copy;
     }
 
     /**
