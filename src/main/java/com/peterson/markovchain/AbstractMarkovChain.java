@@ -45,7 +45,7 @@ public abstract class AbstractMarkovChain implements MarkovChain
         return rand.nextInt(upper);
     }
 
-    public class Builder
+    public static class Builder
     {
         private AbstractMarkovChain instance;
 
