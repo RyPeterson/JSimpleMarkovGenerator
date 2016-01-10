@@ -1,5 +1,9 @@
 package com.peterson.markovchain;
 
+import com.google.gson.GsonBuilder;
+import com.peterson.markovchain.io.JSONDeserializable;
+import com.peterson.markovchain.io.JSONSerializable;
+
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -13,7 +17,7 @@ import java.util.regex.Pattern;
  * @author Peterson, Ryan
  *         Created: 3/14/2015
  */
-public class BasicMarkovChain extends AbstractMarkovChain
+public class BasicMarkovChain extends AbstractMarkovChain implements JSONSerializable, JSONDeserializable
 {
 
     //database for the chain
@@ -223,5 +227,21 @@ public class BasicMarkovChain extends AbstractMarkovChain
             markovChain.put(word, suffix);
         }
         suffix.add(next);
+    }
+
+    /**
+     * This implementation will deserialize the data container
+     * @return
+     */
+    @Override
+    public String toJSON()
+    {
+        return new GsonBuilder().create().toJson(markovChain, markovChain.getClass());
+    }
+
+    @Override
+    public void fromJSON(String jsonString)
+    {
+        markovChain = new GsonBuilder().create().fromJson(jsonString, markovChain.getClass());
     }
 }
