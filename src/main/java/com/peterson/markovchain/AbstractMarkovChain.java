@@ -89,24 +89,27 @@ public abstract class AbstractMarkovChain implements MarkovChain
             }
         }
 
-        public void setPattern(Pattern regexPattern)
+        public Builder setPattern(Pattern regexPattern)
         {
             instance.setSplitPattern(regexPattern);
+            return this;
         }
 
-        public void setTransformer(WordTransformer transformer)
+        public Builder setTransformer(WordTransformer transformer)
         {
             instance.setWordTransformer(transformer);
+            return this;
         }
 
-        public void setRandom(Random rand)
+        public Builder setRandom(Random rand)
         {
             instance.setRand(rand);
+            return this;
         }
 
         public MarkovChain build()
         {
-            return instance;
+            return instance.copy();
         }
     }
 }
