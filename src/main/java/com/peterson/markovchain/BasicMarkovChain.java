@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
  * @author Peterson, Ryan
  *         Created: 3/14/2015
  */
-public class BasicMarkovChain extends AbstractMarkovChain implements JSONSerializable, JSONDeserializable
+public class BasicMarkovChain extends AbstractMarkovChain
 {
 
     //database for the chain
@@ -180,21 +180,5 @@ public class BasicMarkovChain extends AbstractMarkovChain implements JSONSeriali
         }
 
         return b.toString();
-    }
-
-    /**
-     * This implementation will deserialize the data container
-     * @return
-     */
-    @Override
-    public String toJSON()
-    {
-        return new GsonBuilder().create().toJson(markovChain, markovChain.getClass());
-    }
-
-    @Override
-    public void fromJSON(String jsonString)
-    {
-        markovChain = new GsonBuilder().create().fromJson(jsonString, markovChain.getClass());
     }
 }
