@@ -59,7 +59,7 @@ public class BasicMarkovChain extends AbstractMarkovChain
             return;
 
         //ensure that the phrase has ending punctuation
-        if(!PUNCTUATION.contains(MarkovChainUtilities.endChar(phrase)))
+        if(!MarkovChainUtilities.PUNCTUATION_SET.contains(MarkovChainUtilities.endChar(phrase)))
             phrase += DEFAULT_PHRASE_END;
 
 
@@ -101,7 +101,7 @@ public class BasicMarkovChain extends AbstractMarkovChain
 
         if(next.length() - 1 > 0)
         {
-            while(!PUNCTUATION.contains(next.charAt(next.length() - 1)))
+            while(!MarkovChainUtilities.PUNCTUATION_SET.contains(next.charAt(next.length() - 1)))
             {
                 next = generate(next);
                 sentence.append(next).append(" ");
@@ -127,7 +127,7 @@ public class BasicMarkovChain extends AbstractMarkovChain
 
         sentence.append(next).append(" ");
 
-        while(!PUNCTUATION.contains(next.charAt(next.length() - 1)))
+        while(!MarkovChainUtilities.PUNCTUATION_SET.contains(next.charAt(next.length() - 1)))
         {
             next = generate(next);
             sentence.append(next).append(" ");

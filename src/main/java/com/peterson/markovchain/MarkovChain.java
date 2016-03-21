@@ -22,9 +22,6 @@ public interface MarkovChain
     /* Punctuation to end the phrase on */
     String DEFAULT_PHRASE_END = ".";
 
-    /* a reference to a set that contains punctuation symbols to allow more than '.' to be used to end a phrase*/
-    Set<Character> PUNCTUATION = MarkovChainUtilities.generatePunctuationSet();
-
     /**
      * Add a single phrase to the database.
      * This will generate with previous chains with the chain resulting from the passed phrase.

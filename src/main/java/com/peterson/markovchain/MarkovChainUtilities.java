@@ -1,5 +1,7 @@
 package com.peterson.markovchain;
 
+import com.google.common.collect.ImmutableSet;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,16 +13,7 @@ import java.util.Set;
  */
 public class MarkovChainUtilities
 {
-    static Set<Character> generatePunctuationSet()
-    {
-        Set<Character> punctSet = new HashSet<>(4);
-        punctSet.add('.');
-        punctSet.add('?');
-        punctSet.add('!');
-        punctSet.add(';');
-
-        return Collections.unmodifiableSet(punctSet);
-    }
+    public static Set<Character> PUNCTUATION_SET = ImmutableSet.of('.', '?', '!', ';');
 
     public static boolean hasWhitespaceError(String phrase)
     {

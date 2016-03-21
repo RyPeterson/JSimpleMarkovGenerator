@@ -36,7 +36,7 @@ public class TraversableMarkovChain extends AbstractMarkovChain
         if(MarkovChainUtilities.hasWhitespaceError(phrase))
             return;
 
-        if(!PUNCTUATION.contains(MarkovChainUtilities.endChar(phrase)))
+        if(!MarkovChainUtilities.PUNCTUATION_SET.contains(MarkovChainUtilities.endChar(phrase)))
             phrase += DEFAULT_PHRASE_END;
 
         String []words = super.splitPattern.split(phrase);
@@ -101,7 +101,7 @@ public class TraversableMarkovChain extends AbstractMarkovChain
 
         if(next.word.length() - 1 > 0)
         {
-            while(!PUNCTUATION.contains(MarkovChainUtilities.endChar(next.word)))
+            while(!MarkovChainUtilities.PUNCTUATION_SET.contains(MarkovChainUtilities.endChar(next.word)))
             {
                 next = generate(next);
                 sentence.append(next).append(" ");
