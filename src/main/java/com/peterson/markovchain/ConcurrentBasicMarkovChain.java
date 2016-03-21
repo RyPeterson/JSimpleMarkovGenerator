@@ -1,5 +1,8 @@
 package com.peterson.markovchain;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimaps;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,7 +25,7 @@ public class ConcurrentBasicMarkovChain extends BasicMarkovChain
     public ConcurrentBasicMarkovChain()
     {
         super();
-        super.markovChain = new ConcurrentHashMap<>(super.markovChain);
+        super.markovChain = Multimaps.synchronizedListMultimap(ArrayListMultimap.create());
     }
 
     /**
@@ -38,19 +41,12 @@ public class ConcurrentBasicMarkovChain extends BasicMarkovChain
     }
 
     @Override
-    protected List<String> newList()
-    {
-        //lord have mercy
-        return new CopyOnWriteArrayList<>();
-    }
-
-    @Override
     public MarkovChain copy()
     {
         final Pattern pcopy = Pattern.compile(super.splitPattern.pattern());
         BasicMarkovChain copy = new ConcurrentBasicMarkovChain();
         copy.suffixSet = new HashSet<>(super.suffixSet);
-        copy.markovChain = new ConcurrentHashMap<>(this.markovChain);
+        copy.markovChain = Multimaps.synchronizedListMultimap(this.markovChain);
         copy.transformer = this.transformer;
 
         return copy;

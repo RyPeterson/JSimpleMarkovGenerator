@@ -1,10 +1,15 @@
 package com.peterson.markovchain;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gson.GsonBuilder;
 import com.peterson.markovchain.io.JSONDeserializable;
 import com.peterson.markovchain.io.JSONSerializable;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -21,7 +26,7 @@ public class BasicMarkovChain extends AbstractMarkovChain implements JSONSeriali
 {
 
     //database for the chain
-    protected Map<String, List<String>> markovChain;
+    protected ListMultimap<String, String> markovChain;
 
     //set to store the beginning of a sentence so that a particular start word can be used
     protected Set<String> suffixSet;
@@ -37,9 +42,7 @@ public class BasicMarkovChain extends AbstractMarkovChain implements JSONSeriali
 
     public BasicMarkovChain(Pattern regexPattern)
     {
-        markovChain = new HashMap<>();
-        markovChain.put(CHAIN_START, newList());
-        markovChain.put(CHAIN_END, newList());
+        markovChain = ArrayListMultimap.create();
         rand = new Random();
         suffixSet = new HashSet<>();
         super.setSplitPattern(regexPattern);
@@ -66,15 +69,18 @@ public class BasicMarkovChain extends AbstractMarkovChain implements JSONSeriali
         {
             if(i == 0)
             {
-                putHead(words[i], i + 1 < words.length ? words[i + 1] : null);
+                String next = i + 1 < words.length ? words[i + 1] : null;
+                markovChain.put(CHAIN_START, words[i]);
+                suffixSet.add(words[i]);
+                markovChain.put(words[i], next);
             }
             else if(i == words.length - 1)
             {
-                putEnd(words[i]);
+                markovChain.get(CHAIN_END).add(words[i]);
             }
             else
             {
-                put(words[i], words[i + 1]);
+                markovChain.put(words[i], words[i + 1]);
             }
         }
     }
@@ -135,7 +141,7 @@ public class BasicMarkovChain extends AbstractMarkovChain implements JSONSeriali
         final Pattern pcopy = Pattern.compile(super.splitPattern.pattern());
         BasicMarkovChain copy = new BasicMarkovChain(pcopy);
         copy.suffixSet = new HashSet<>(this.suffixSet);
-        copy.markovChain = new HashMap<>(this.markovChain);
+        copy.markovChain = ArrayListMultimap.create(this.markovChain);
         copy.transformer = this.transformer;
 
         return copy;
@@ -174,59 +180,6 @@ public class BasicMarkovChain extends AbstractMarkovChain implements JSONSeriali
         }
 
         return b.toString();
-    }
-
-    /**
-     * Returns a more "loggable" view of the state.
-     * @return a formatted string to represent the state.
-     */
-    public String toLoggableString()
-    {
-        StringBuilder b = new StringBuilder();
-        for(String key : markovChain.keySet())
-        {
-            b.append(key).append("|");
-            for(String s : markovChain.get(key))
-                b.append(s).append(" ");
-            b.append("\n");
-        }
-        return b.toString();
-    }
-    
-    protected List<String> newList()
-    {
-        return new ArrayList<>();
-    }
-
-    protected void putHead(String word, String next)
-    {
-        List<String> starting = markovChain.get(CHAIN_START);
-        starting.add(word);
-        suffixSet.add(word);
-        List<String> suffix = markovChain.get(word);
-        if(suffix == null)
-        {
-            suffix = newList();
-            if(next != null)
-                suffix.add(next);
-            markovChain.put(word, suffix);
-        }
-    }
-
-    protected void putEnd(String word)
-    {
-        markovChain.get(CHAIN_END).add(word);
-    }
-
-    protected void put(String word, String next)
-    {
-        List<String> suffix = markovChain.get(word);
-        if(suffix == null)
-        {
-            suffix = newList();
-            markovChain.put(word, suffix);
-        }
-        suffix.add(next);
     }
 
     /**
