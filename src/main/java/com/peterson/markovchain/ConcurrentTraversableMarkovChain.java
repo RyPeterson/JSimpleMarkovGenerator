@@ -1,5 +1,8 @@
 package com.peterson.markovchain;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimaps;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +24,7 @@ public class ConcurrentTraversableMarkovChain extends TraversableMarkovChain
     public ConcurrentTraversableMarkovChain()
     {
         super();
-        super.markovChain = new ConcurrentHashMap<>(super.markovChain);
+        super.markovChain = Multimaps.synchronizedListMultimap(ArrayListMultimap.create());
     }
 
     @Override
@@ -35,7 +38,7 @@ public class ConcurrentTraversableMarkovChain extends TraversableMarkovChain
     {
         final Pattern pcopy = Pattern.compile(super.splitPattern.pattern());
         TraversableMarkovChain copy = new TraversableMarkovChain(pcopy);
-        copy.markovChain = new ConcurrentHashMap<>(this.markovChain);
+        copy.markovChain = Multimaps.synchronizedListMultimap(this.markovChain);
         copy.transformer = this.transformer;
         return copy;
     }

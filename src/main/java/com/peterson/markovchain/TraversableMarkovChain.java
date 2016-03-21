@@ -1,5 +1,8 @@
 package com.peterson.markovchain;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
+
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -10,7 +13,7 @@ import java.util.regex.Pattern;
 public class TraversableMarkovChain extends AbstractMarkovChain
 {
     //database for the chain
-    protected Map<String, List<Link>> markovChain;
+    protected ListMultimap<String, Link> markovChain;
 
     public TraversableMarkovChain()
     {
@@ -19,9 +22,7 @@ public class TraversableMarkovChain extends AbstractMarkovChain
 
     public TraversableMarkovChain(Pattern regexPattern)
     {
-        markovChain = new HashMap<>();
-        markovChain.put(CHAIN_START, newList());
-        markovChain.put(CHAIN_END, newList());
+        markovChain = ArrayListMultimap.create();
         super.setRand(new Random());
         super.setSplitPattern(regexPattern);
     }
@@ -61,51 +62,26 @@ public class TraversableMarkovChain extends AbstractMarkovChain
 
     protected void putHead(String word, String next, Link prev)
     {
-        List<Link> starting = markovChain.get(CHAIN_START);
         Link wordLink = new Link(word);
-        starting.add(wordLink);
-
-        List<Link> suffix = markovChain.get(word);
-        if(suffix == null)
-        {
-            suffix = newList();
-            if(next != null)
-            {
-                Link nextLink = new Link(next);
-                nextLink.previous = wordLink;
-                suffix.add(nextLink);
-                prev = nextLink;
-            }
-            markovChain.put(word, suffix);
-        }
+        markovChain.put(CHAIN_START, wordLink);
+        Link nextLink = new Link(next);
+        nextLink.previous = wordLink;
+        prev = nextLink;
+        markovChain.put(word, nextLink);
     }
 
     protected void putEnd(String word, Link prev)
     {
         Link end = new Link(word);
-        end.previous = prev;
-        markovChain.get(CHAIN_END).add(end);
+        markovChain.put(CHAIN_END, end);
     }
 
     protected void put(String word, String next, Link prev)
     {
-        List<Link> suffix = markovChain.get(word);
-        if(suffix == null)
-        {
-            suffix = newList();
-            Link wordLink = new Link(next);
-            wordLink.previous = prev;
-            prev = wordLink;
-            suffix.add(wordLink);
-            markovChain.put(word, suffix);
-        }
-        else
-        {
-            Link wordLink = new Link(next);
-            wordLink.previous = prev;
-            prev = wordLink;
-            suffix.add(wordLink);
-        }
+        Link wordLink = new Link(next);
+        wordLink.previous = prev;
+        prev = wordLink;
+        markovChain.put(word, wordLink);
     }
 
     @Override
@@ -170,7 +146,7 @@ public class TraversableMarkovChain extends AbstractMarkovChain
     {
         final Pattern pcopy = Pattern.compile(super.splitPattern.pattern());
         TraversableMarkovChain copy = new TraversableMarkovChain(pcopy);
-        copy.markovChain = new HashMap<>(this.markovChain);
+        copy.markovChain = ArrayListMultimap.create(this.markovChain);
         copy.transformer = this.transformer;
         return copy;
     }
