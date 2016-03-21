@@ -21,11 +21,11 @@ public class MarkovChainBuilderTestCase
 
         chain = new AbstractMarkovChain.Builder(false, true).build();
 
-        Assert.assertTrue(chain instanceof TraversableMarkovChain);
+        Assert.assertTrue(chain instanceof SeedableMarkovChain);
 
         chain = new AbstractMarkovChain.Builder(true, true).build();
 
-        Assert.assertTrue(chain instanceof ConcurrentTraversableMarkovChain);
+        Assert.assertTrue(chain instanceof ConcurrentSeedableMarkovChain);
 
     }
 

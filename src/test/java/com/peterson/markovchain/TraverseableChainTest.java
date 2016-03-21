@@ -12,6 +12,6 @@ public class TraverseableChainTest extends BasicMarkovTest
     @Override
     public void setUp()
     {
-        markovChain = new TraversableMarkovChain();
+        markovChain = new SeedableMarkovChain();
     }
 }

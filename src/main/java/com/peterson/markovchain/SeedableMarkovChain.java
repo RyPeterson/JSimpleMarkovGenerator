@@ -10,17 +10,17 @@ import java.util.regex.Pattern;
  * @author Peterson, Ryan
  *         Created: 6/8/15
  */
-public class TraversableMarkovChain extends AbstractMarkovChain
+public class SeedableMarkovChain extends AbstractMarkovChain
 {
     //database for the chain
     protected ListMultimap<String, Link> markovChain;
 
-    public TraversableMarkovChain()
+    public SeedableMarkovChain()
     {
         this(Pattern.compile(WORD_REGEX));
     }
 
-    public TraversableMarkovChain(Pattern regexPattern)
+    public SeedableMarkovChain(Pattern regexPattern)
     {
         markovChain = ArrayListMultimap.create();
         super.setRand(new Random());
@@ -145,7 +145,7 @@ public class TraversableMarkovChain extends AbstractMarkovChain
     public MarkovChain copy()
     {
         final Pattern pcopy = Pattern.compile(super.splitPattern.pattern());
-        TraversableMarkovChain copy = new TraversableMarkovChain(pcopy);
+        SeedableMarkovChain copy = new SeedableMarkovChain(pcopy);
         copy.markovChain = ArrayListMultimap.create(this.markovChain);
         copy.transformer = this.transformer;
         return copy;

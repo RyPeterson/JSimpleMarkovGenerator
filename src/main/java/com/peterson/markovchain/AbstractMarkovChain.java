@@ -69,7 +69,7 @@ public abstract class AbstractMarkovChain implements MarkovChain
             {
                 if(traversable)
                 {
-                    instance = new ConcurrentTraversableMarkovChain();
+                    instance = new ConcurrentSeedableMarkovChain();
                 }
                 else
                 {
@@ -80,7 +80,7 @@ public abstract class AbstractMarkovChain implements MarkovChain
             {
                 if(traversable)
                 {
-                    instance = new TraversableMarkovChain();
+                    instance = new SeedableMarkovChain();
                 }
                 else
                 {

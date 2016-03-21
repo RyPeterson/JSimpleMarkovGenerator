@@ -21,7 +21,7 @@ public class SynchronizedTraversalTest extends TraverseableChainTest
     @Override
     public void setUp()
     {
-        markovChain = new ConcurrentTraversableMarkovChain();
+        markovChain = new ConcurrentSeedableMarkovChain();
     }
 
     @Test
