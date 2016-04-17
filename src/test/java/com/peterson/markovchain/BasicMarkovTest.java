@@ -14,7 +14,7 @@ import java.util.Random;
  */
 public class BasicMarkovTest
 {
-    protected MarkovChain markovChain;
+    protected AbstractMarkovChain markovChain;
     private static Random rand = new Random();
 
     @Before
@@ -158,24 +158,77 @@ public class BasicMarkovTest
         testOnSeed("To");
     }
 
+    @Test
     public void testGenerateOnSeedMid()
     {
         testOnSeed("that");
     }
 
+    @Test
     public void testGenerateOnSeedEnd()
     {
         testOnSeed("question");
     }
 
-    public void testGenerateOnSeedNoExistant()
+    @Test
+    public void testGenerateOnSeedNotExistent()
     {
         testOnSeed("foobar");
     }
 
+    @Test
     public void testGenerateOnNullSeed()
     {
         testOnSeed(null);
+    }
+
+    @Test
+    public void practicalTest()
+    {
+        Random rand = new MockRandom(0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+        markovChain.setRand(rand);
+
+        markovChain.addPhrase("She sells seashells by the seashore.");
+        markovChain.addPhrase("She sells oddball by the seashore.");
+        markovChain.addPhrase("She sells seashells by the dozen.");
+        markovChain.addPhrase("She sells seashells by the ounce.");
+        markovChain.addPhrase("He sells barbells by the redbull.");
+
+        //fine with a spaces on either end
+        String result = markovChain.generateSentence().trim();
+
+        Assert.assertEquals("She sells seashells by the seashore.", result);
+
+        rand = new MockRandom(0,0,1,0,0,0,0,0,0,0,0,0,0,0);
+        markovChain.setRand(rand);
+        result = markovChain.generateSentence().trim();
+
+        Assert.assertEquals("She sells oddball by the seashore.", result);
+
+        rand = new MockRandom(0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0);
+        markovChain.setRand(rand);
+        result = markovChain.generateSentence().trim();
+
+        Assert.assertEquals("She sells seashells by the dozen.", result);
+
+        rand = new MockRandom(0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0);
+        markovChain.setRand(rand);
+        result = markovChain.generateSentence().trim();
+
+        Assert.assertEquals("She sells seashells by the ounce.", result);
+
+        rand = new MockRandom(4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+        markovChain.setRand(rand);
+        result = markovChain.generateSentence().trim();
+
+        Assert.assertEquals("He sells seashells by the seashore.", result);
+
+        rand = new MockRandom(4,0,4,0,0,4,0,0,0,0,0,0,0,0,0,0);
+        markovChain.setRand(rand);
+        result = markovChain.generateSentence().trim();
+
+        Assert.assertEquals("He sells barbells by the redbull.", result);
+
     }
 
     private void testOnSeed(String seed)
