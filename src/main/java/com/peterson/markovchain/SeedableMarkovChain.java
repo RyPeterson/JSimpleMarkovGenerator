@@ -192,7 +192,7 @@ public class SeedableMarkovChain extends AbstractSeedableMarkovChain
      * Class the holds the state of the word.
      * This allows the traversal back one word.
      */
-    protected class Link
+    public class Link
     {
         //link == null means its the head
         Link previous;

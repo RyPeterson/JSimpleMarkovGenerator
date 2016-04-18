@@ -105,7 +105,7 @@ public abstract class AbstractMarkovChain implements MarkovChain
 
         public MarkovChain build()
         {
-            return instance.copy();
+            return instance;
         }
     }
 
@@ -121,11 +121,11 @@ public abstract class AbstractMarkovChain implements MarkovChain
 
     protected void put(String key, String current, Map<String, List<String>> chains)
     {
-        List<String> list = chains.get(current);
+        List<String> list = chains.get(key);
         if(list == null)
         {
             list = newList();
-            chains.put(current, list);
+            chains.put(key, list);
         }
         list.add(current);
     }

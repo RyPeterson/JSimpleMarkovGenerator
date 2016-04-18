@@ -2,8 +2,6 @@ package com.peterson.markovchain;
 
 import com.google.common.collect.ImmutableSet;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
