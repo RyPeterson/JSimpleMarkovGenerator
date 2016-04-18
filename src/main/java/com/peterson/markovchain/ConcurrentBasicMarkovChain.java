@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.regex.Pattern;
 
 /**
@@ -16,6 +18,8 @@ import java.util.regex.Pattern;
  */
 public class ConcurrentBasicMarkovChain extends BasicMarkovChain
 {
+    private ReadWriteLock readWriteLock;
+
     /**
      * Constructs a synchronized version of the generator.
      * This provides all the basic functionality to generate
@@ -24,6 +28,7 @@ public class ConcurrentBasicMarkovChain extends BasicMarkovChain
     public ConcurrentBasicMarkovChain()
     {
         super();
+        readWriteLock = new ReentrantReadWriteLock(true);
     }
 
     /**
@@ -43,6 +48,7 @@ public class ConcurrentBasicMarkovChain extends BasicMarkovChain
     {
         final Pattern pcopy = Pattern.compile(super.splitPattern.pattern());
         BasicMarkovChain copy = new ConcurrentBasicMarkovChain();
+        copy.setSplitPattern(pcopy);
         copy.suffixSet = new HashSet<>(super.suffixSet);
         Map<String, List<String>> chains = newMap();
         chains.putAll(this.markovChain);
@@ -70,4 +76,45 @@ public class ConcurrentBasicMarkovChain extends BasicMarkovChain
         return ThreadLocalRandom.current().nextInt(upper);
     }
 
+    @Override
+    public String generateSentence()
+    {
+        readWriteLock.readLock().lock();
+        try
+        {
+            return super.generateSentence();
+        }
+        finally
+        {
+            readWriteLock.readLock().unlock();
+        }
+    }
+
+    @Override
+    public String generateSentence(String seed)
+    {
+        readWriteLock.readLock().lock();
+        try
+        {
+            return super.generateSentence(seed);
+        }
+        finally
+        {
+            readWriteLock.readLock().unlock();
+        }
+    }
+
+    @Override
+    public void addPhrase(String phrase)
+    {
+        readWriteLock.writeLock().lock();
+        try
+        {
+            super.addPhrase(phrase);
+        }
+        finally
+        {
+            readWriteLock.writeLock().unlock();
+        }
+    }
 }

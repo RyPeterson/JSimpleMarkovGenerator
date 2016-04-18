@@ -180,7 +180,7 @@ public class SeedableMarkovChain extends AbstractSeedableMarkovChain
     private Link generate(String seed)
     {
         List<Link> word = markovChain.get(seed);
-        return word != null && word.size() != 0 ? word.get(super.randInt(word.size())) : null;
+        return word != null && word.size() != 0 ? word.get(randInt(word.size())) : null;
     }
 
     private Link generate(Link seed)

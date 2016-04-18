@@ -150,7 +150,7 @@ public class BasicMarkovChain extends AbstractMarkovChain
     {
         List<String> word = markovChain.get(seed);
         if(word != null && word.size() > 0)
-            return word.get(super.randInt(word.size()));
+            return word.get(randInt(word.size()));
         else
             return null;
     }
