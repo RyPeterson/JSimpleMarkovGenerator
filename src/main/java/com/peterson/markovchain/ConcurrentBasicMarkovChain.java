@@ -1,12 +1,11 @@
 package com.peterson.markovchain;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimaps;
-
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
 /**
@@ -25,7 +24,6 @@ public class ConcurrentBasicMarkovChain extends BasicMarkovChain
     public ConcurrentBasicMarkovChain()
     {
         super();
-        super.markovChain = Multimaps.synchronizedListMultimap(ArrayListMultimap.create());
     }
 
     /**
@@ -46,9 +44,30 @@ public class ConcurrentBasicMarkovChain extends BasicMarkovChain
         final Pattern pcopy = Pattern.compile(super.splitPattern.pattern());
         BasicMarkovChain copy = new ConcurrentBasicMarkovChain();
         copy.suffixSet = new HashSet<>(super.suffixSet);
-        copy.markovChain = Multimaps.synchronizedListMultimap(this.markovChain);
+        Map<String, List<String>> chains = newMap();
+        chains.putAll(this.markovChain);
+        copy.markovChain = chains;
         copy.transformer = this.transformer;
 
         return copy;
     }
+
+    @Override
+    protected List<String> newList()
+    {
+        return new CopyOnWriteArrayList<>();
+    }
+
+    @Override
+    protected Map<String, List<String>> newMap()
+    {
+        return new ConcurrentHashMap<>();
+    }
+
+    @Override
+    protected int randInt(int upper)
+    {
+        return ThreadLocalRandom.current().nextInt(upper);
+    }
+
 }

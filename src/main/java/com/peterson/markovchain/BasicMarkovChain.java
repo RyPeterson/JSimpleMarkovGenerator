@@ -1,15 +1,6 @@
 package com.peterson.markovchain;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
-import com.google.gson.GsonBuilder;
-import com.peterson.markovchain.io.JSONDeserializable;
-import com.peterson.markovchain.io.JSONSerializable;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -26,7 +17,7 @@ public class BasicMarkovChain extends AbstractMarkovChain
 {
 
     //database for the chain
-    protected ListMultimap<String, String> markovChain;
+    protected Map<String, List<String>> markovChain;
 
     //set to store the beginning of a sentence so that a particular start word can be used
     protected Set<String> suffixSet;
@@ -42,7 +33,7 @@ public class BasicMarkovChain extends AbstractMarkovChain
 
     public BasicMarkovChain(Pattern regexPattern)
     {
-        markovChain = ArrayListMultimap.create();
+        markovChain = newMap();
         rand = new Random();
         suffixSet = new HashSet<>();
         super.setSplitPattern(regexPattern);
@@ -70,17 +61,17 @@ public class BasicMarkovChain extends AbstractMarkovChain
             if(i == 0)
             {
                 String next = i + 1 < words.length ? words[i + 1] : null;
-                markovChain.put(CHAIN_START, words[i]);
+                put(CHAIN_START, words[i], markovChain);
                 suffixSet.add(words[i]);
-                markovChain.put(words[i], next);
+                put(words[i], next, markovChain);
             }
             else if(i == words.length - 1)
             {
-                markovChain.get(CHAIN_END).add(words[i]);
+                put(CHAIN_END, words[i], markovChain);
             }
             else
             {
-                markovChain.put(words[i], words[i + 1]);
+                put(words[i], words[i + 1], markovChain);
             }
         }
     }
@@ -141,7 +132,9 @@ public class BasicMarkovChain extends AbstractMarkovChain
         final Pattern pcopy = Pattern.compile(super.splitPattern.pattern());
         BasicMarkovChain copy = new BasicMarkovChain(pcopy);
         copy.suffixSet = new HashSet<>(this.suffixSet);
-        copy.markovChain = ArrayListMultimap.create(this.markovChain);
+        Map<String, List<String>> chains = newMap();
+        chains.putAll(this.markovChain);
+        copy.markovChain = chains;
         copy.transformer = this.transformer;
 
         return copy;

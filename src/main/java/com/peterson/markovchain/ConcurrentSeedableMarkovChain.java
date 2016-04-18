@@ -1,12 +1,9 @@
 package com.peterson.markovchain;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimaps;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.regex.Pattern;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * A basic synchronized version of the SeedableMarkovChain.
@@ -23,22 +20,17 @@ public class ConcurrentSeedableMarkovChain extends SeedableMarkovChain
     public ConcurrentSeedableMarkovChain()
     {
         super();
-        super.markovChain = Multimaps.synchronizedListMultimap(ArrayListMultimap.create());
     }
 
     @Override
-    protected List<Link> newList()
+    protected List<Link> newLinkList()
     {
-        return Collections.synchronizedList(new ArrayList<>());
+        return new CopyOnWriteArrayList<>();
     }
 
     @Override
-    public MarkovChain copy()
+    protected Map<String, List<Link>> newSeedableMap()
     {
-        final Pattern pcopy = Pattern.compile(super.splitPattern.pattern());
-        SeedableMarkovChain copy = new SeedableMarkovChain(pcopy);
-        copy.markovChain = Multimaps.synchronizedListMultimap(this.markovChain);
-        copy.transformer = this.transformer;
-        return copy;
+        return new ConcurrentHashMap<>();
     }
 }

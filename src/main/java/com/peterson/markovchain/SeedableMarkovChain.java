@@ -1,19 +1,17 @@
 package com.peterson.markovchain;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
-
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
  * @author Peterson, Ryan
  *         Created: 6/8/15
  */
-public class SeedableMarkovChain extends AbstractMarkovChain
+public class SeedableMarkovChain extends AbstractSeedableMarkovChain
 {
     //database for the chain
-    protected ListMultimap<String, Link> markovChain;
+    protected Map<String, List<Link>> markovChain;
 
     public SeedableMarkovChain()
     {
@@ -22,8 +20,7 @@ public class SeedableMarkovChain extends AbstractMarkovChain
 
     public SeedableMarkovChain(Pattern regexPattern)
     {
-        markovChain = ArrayListMultimap.create();
-        super.setRand(new Random());
+        markovChain = newSeedableMap();
         super.setSplitPattern(regexPattern);
     }
 
@@ -63,17 +60,27 @@ public class SeedableMarkovChain extends AbstractMarkovChain
     protected void putHead(String word, String next, Link prev)
     {
         Link wordLink = new Link(word);
-        markovChain.put(CHAIN_START, wordLink);
-        Link nextLink = new Link(next);
-        nextLink.previous = wordLink;
-        prev = nextLink;
-        markovChain.put(word, nextLink);
+        List<Link> start = markovChain.get(CHAIN_START);
+        if(start == null)
+        {
+            start = newLinkList();
+            markovChain.put(CHAIN_START, start);
+        }
+        start.add(wordLink);
+        put(word, next, prev);
     }
 
     protected void putEnd(String word, Link prev)
     {
         Link end = new Link(word);
-        markovChain.put(CHAIN_END, end);
+        end.previous = prev;
+        List<Link> list = markovChain.get(CHAIN_END);
+        if(list == null)
+        {
+            list = newLinkList();
+            markovChain.put(CHAIN_END, list);
+        }
+        list.add(end);
     }
 
     protected void put(String word, String next, Link prev)
@@ -81,7 +88,13 @@ public class SeedableMarkovChain extends AbstractMarkovChain
         Link wordLink = new Link(next);
         wordLink.previous = prev;
         prev = wordLink;
-        markovChain.put(word, wordLink);
+        List<Link> list = markovChain.get(word);
+        if(list == null)
+        {
+            list = newLinkList();
+            markovChain.put(word, list);
+        }
+        list.add(wordLink);
     }
 
     @Override
@@ -146,7 +159,9 @@ public class SeedableMarkovChain extends AbstractMarkovChain
     {
         final Pattern pcopy = Pattern.compile(super.splitPattern.pattern());
         SeedableMarkovChain copy = new SeedableMarkovChain(pcopy);
-        copy.markovChain = ArrayListMultimap.create(this.markovChain);
+        Map<String, List<Link>> map = newSeedableMap();
+        map.putAll(this.markovChain);
+        copy.markovChain = map;
         copy.transformer = this.transformer;
         return copy;
     }
@@ -171,11 +186,6 @@ public class SeedableMarkovChain extends AbstractMarkovChain
     private Link generate(Link seed)
     {
         return generate(seed.word);
-    }
-
-    protected List<Link> newList()
-    {
-        return new ArrayList<>();
     }
 
     /**

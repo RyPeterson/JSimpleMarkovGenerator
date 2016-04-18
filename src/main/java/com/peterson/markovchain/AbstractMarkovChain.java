@@ -1,6 +1,6 @@
 package com.peterson.markovchain;
 
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
  */
 public abstract class AbstractMarkovChain implements MarkovChain
 {
-    protected transient Random rand;
+    protected Random rand;
 
     protected Pattern splitPattern;
 
@@ -37,11 +37,6 @@ public abstract class AbstractMarkovChain implements MarkovChain
 
     protected int randInt(int upper)
     {
-        if(rand == null)
-        {
-            rand = new Random();
-        }
-
         return rand.nextInt(upper);
     }
 
@@ -60,14 +55,15 @@ public abstract class AbstractMarkovChain implements MarkovChain
 
         /**
          * Set up the builder.
-         * @param concurrent true to have a more thread safe generator
+         *
+         * @param concurrent  true to have a more thread safe generator
          * @param traversable true to have a generator that can build based on a seed
          */
         public Builder(boolean concurrent, boolean traversable)
         {
-            if(concurrent)
+            if (concurrent)
             {
-                if(traversable)
+                if (traversable)
                 {
                     instance = new ConcurrentSeedableMarkovChain();
                 }
@@ -78,7 +74,7 @@ public abstract class AbstractMarkovChain implements MarkovChain
             }
             else
             {
-                if(traversable)
+                if (traversable)
                 {
                     instance = new SeedableMarkovChain();
                 }
@@ -111,5 +107,26 @@ public abstract class AbstractMarkovChain implements MarkovChain
         {
             return instance.copy();
         }
+    }
+
+    protected Map<String, List<String>> newMap()
+    {
+        return new HashMap<>();
+    }
+
+    protected List<String> newList()
+    {
+        return new ArrayList<>();
+    }
+
+    protected void put(String key, String current, Map<String, List<String>> chains)
+    {
+        List<String> list = chains.get(current);
+        if(list == null)
+        {
+            list = newList();
+            chains.put(current, list);
+        }
+        list.add(current);
     }
 }
