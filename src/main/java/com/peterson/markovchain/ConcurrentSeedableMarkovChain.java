@@ -24,7 +24,7 @@ public class ConcurrentSeedableMarkovChain extends SeedableMarkovChain
     public ConcurrentSeedableMarkovChain()
     {
         super();
-        readWriteLock = new ReentrantReadWriteLock();
+        readWriteLock = new ReentrantReadWriteLock(true);
     }
 
     @Override
