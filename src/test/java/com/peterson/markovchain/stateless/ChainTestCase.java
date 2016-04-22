@@ -1,5 +1,7 @@
 package com.peterson.markovchain.stateless;
 
+import com.peterson.markovchain.stateless.internal.Chain;
+import com.peterson.markovchain.stateless.internal.Link;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

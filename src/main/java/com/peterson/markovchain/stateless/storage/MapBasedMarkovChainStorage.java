@@ -1,7 +1,7 @@
 package com.peterson.markovchain.stateless.storage;
 
-import com.peterson.markovchain.stateless.Chain;
-import com.peterson.markovchain.stateless.Link;
+import com.peterson.markovchain.stateless.internal.Chain;
+import com.peterson.markovchain.stateless.internal.Link;
 
 import java.util.*;
 
@@ -15,18 +15,18 @@ public class MapBasedMarkovChainStorage<T> implements MarkovChainStorage<T>
 
     public MapBasedMarkovChainStorage()
     {
-        storage = new HashMap<>();
+        storage = newMap();
         heads = new ArrayList<>();
     }
 
-    protected Map<T, T> newMap()
+    protected Map<T, List<Link<T>>> newMap()
     {
         return new HashMap<>();
     }
 
     private List<Link<T>> newList()
     {
-        return newList();
+        return new ArrayList<>();
     }
 
     @Override
@@ -42,7 +42,7 @@ public class MapBasedMarkovChainStorage<T> implements MarkovChainStorage<T>
             List<Link<T>> list = storage.get(value);
             if(list == null)
             {
-                list = new ArrayList<>();
+                list = newList();
                 storage.put(value, list);
             }
             list.add(link);

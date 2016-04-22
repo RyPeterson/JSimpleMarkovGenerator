@@ -1,6 +1,6 @@
 package com.peterson.markovchain.stateless.storage;
 
-import com.peterson.markovchain.stateless.Chain;
+import com.peterson.markovchain.stateless.internal.Chain;
 
 import java.util.List;
 

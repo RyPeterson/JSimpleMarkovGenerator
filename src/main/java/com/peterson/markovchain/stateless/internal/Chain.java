@@ -1,4 +1,4 @@
-package com.peterson.markovchain.stateless;
+package com.peterson.markovchain.stateless.internal;
 
 import java.util.ArrayList;
 import java.util.Collections;
