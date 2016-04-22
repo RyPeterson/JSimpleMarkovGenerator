@@ -15,5 +15,11 @@ public interface MarkovChainGenerator<T>
      */
     Collection<T> generateChain(Function<T, T> transitionFunction);
 
+    /**
+     * Given a supplier, create a new chain.
+     * When the supplier is done giving this generator values,
+     * it must return null.
+     * @param knowledgeSupplier
+     */
     void learn(Supplier<T> knowledgeSupplier);
 }

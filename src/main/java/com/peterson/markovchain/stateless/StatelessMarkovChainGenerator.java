@@ -1,5 +1,7 @@
 package com.peterson.markovchain.stateless;
 
+import com.peterson.markovchain.stateless.storage.MarkovChainStorage;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Function;
@@ -10,6 +12,13 @@ import java.util.function.Supplier;
  */
 public class StatelessMarkovChainGenerator<T> implements MarkovChainGenerator<T>
 {
+    private final MarkovChainStorage<T> storage;
+
+    public StatelessMarkovChainGenerator(MarkovChainStorage<T> dataStore)
+    {
+        this.storage = dataStore;
+    }
+
     @Override
     public Collection<T> generateChain(Function<T, T> transitionFunction)
     {
@@ -40,5 +49,6 @@ public class StatelessMarkovChainGenerator<T> implements MarkovChainGenerator<T>
         }
         while(current != null);
 
+        storage.storeChain(chain);
     }
 }
