@@ -39,12 +39,13 @@ public class MapBasedMarkovChainStorage<T> implements MarkovChainStorage<T>
 
         chain.getChain().forEach((link) -> {
             T value = link.getValue();
-            List<Link<T>> list = storage.get(value);
-            if(list == null)
+            //Essentially a get, but if not present, add a new list
+            List<Link<T>> list = Optional.ofNullable(storage.get(value)).orElseGet(() ->
             {
-                list = newList();
-                storage.put(value, list);
-            }
+                List<Link<T>> newList = newList();
+                storage.put(value, newList);
+                return newList;
+            });
             list.add(link);
         });
     }

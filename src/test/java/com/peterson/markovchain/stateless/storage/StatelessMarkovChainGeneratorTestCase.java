@@ -38,18 +38,21 @@ public class StatelessMarkovChainGeneratorTestCase
 
         markovChainGenerator.learn(() -> learningSetThree.isEmpty() ? null : learningSetThree.remove());
 
-        List<String> seashells = storage.getHeads();
+        List<String> heads = storage.getHeads();
 
-        Assert.assertNotNull(seashells);
+        Assert.assertNotNull(heads);
 
         List<String> expecteds = Arrays.asList("She sells seashells by the seashore.".split("\\s"));
+        String end = expecteds.get(expecteds.size() - 1);
+        String seashells = heads.get(0);
         for (String expected : expecteds)
         {
-            Assert.assertEquals(expected, seashells.get(0));
-            seashells = storage.getNext(seashells.get(0));
+            Assert.assertEquals(expected, seashells);
+            if(expected != end) //Legit String equality compare
+            {
+                seashells = storage.getNext(seashells).get(0);
+            }
         }
-
-        //TODO: test the cycle in second set.
     }
 
 }
