@@ -35,7 +35,7 @@ public class StatelessMarkovChainGenerator<T> implements MarkovChainGenerator<T>
             current = knowledgeSupplier.get();
             if(current != null)
             {
-                chain.getChain().add(new Link<>(current));
+                chain.addLink(current);
             }
         }
         while(current != null);
