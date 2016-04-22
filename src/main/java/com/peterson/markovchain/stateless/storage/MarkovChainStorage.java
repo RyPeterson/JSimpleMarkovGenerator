@@ -13,5 +13,16 @@ public interface MarkovChainStorage<T>
 {
     void storeChain(Chain<T> chain);
 
+    /**
+     * Given the current value, get what follows.
+     * @param current
+     * @return
+     */
     List<T> getNext(T current);
+
+    /**
+     * Get a list of possible starting points of the chain.
+     * @return
+     */
+    List<T> getHeads();
 }

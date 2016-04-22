@@ -11,20 +11,32 @@ import java.util.*;
 public class MapBasedMarkovChainStorage<T> implements MarkovChainStorage<T>
 {
     private final Map<T, List<Link<T>>> storage;
+    private final List<T> heads;
 
     public MapBasedMarkovChainStorage()
     {
-        this(new HashMap<>());
+        storage = new HashMap<>();
+        heads = new ArrayList<>();
     }
 
-    public MapBasedMarkovChainStorage(Map<T, List<Link<T>>> multimap)
+    protected Map<T, T> newMap()
     {
-        this.storage = multimap;
+        return new HashMap<>();
+    }
+
+    private List<Link<T>> newList()
+    {
+        return newList();
     }
 
     @Override
     public void storeChain(Chain<T> chain)
     {
+        if(!chain.getChain().isEmpty())
+        {
+            heads.add(Optional.ofNullable(chain.getChain().get(0)).orElse(new Link<>(null)).getValue());
+        }
+
         chain.getChain().forEach((link) -> {
             T value = link.getValue();
             List<Link<T>> list = storage.get(value);
@@ -49,6 +61,12 @@ public class MapBasedMarkovChainStorage<T> implements MarkovChainStorage<T>
         }));
 
         return list;
+    }
+
+    @Override
+    public List<T> getHeads()
+    {
+        return Collections.unmodifiableList(heads);
     }
 
     private static <T> Link<T> next(List<Link<T>> links, T value)
