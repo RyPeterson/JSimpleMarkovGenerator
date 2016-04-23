@@ -128,7 +128,7 @@ public class SeedableMarkovChain extends AbstractSeedableMarkovChain
     public String generateSentence(String seed)
     {
         //determine if the seed word is in a chain
-        List<Link> initialList = markovChain.get(seed);
+        List<Link> initialList = seed == null ? null :  markovChain.get(seed);
         if(initialList == null) //if its not, just generate a chain
             return generateSentence();
 
