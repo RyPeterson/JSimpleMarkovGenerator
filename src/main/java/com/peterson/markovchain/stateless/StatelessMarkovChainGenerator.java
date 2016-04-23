@@ -1,11 +1,12 @@
 package com.peterson.markovchain.stateless;
 
+import com.peterson.markovchain.stateless.functions.StateTransitionFunction;
 import com.peterson.markovchain.stateless.internal.Chain;
 import com.peterson.markovchain.stateless.storage.MarkovChainStorage;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.function.Function;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -21,7 +22,7 @@ public class StatelessMarkovChainGenerator<T> implements MarkovChainGenerator<T>
     }
 
     @Override
-    public Collection<T> generateChain(Function<T, T> transitionFunction)
+    public Collection<T> generateChain(StateTransitionFunction<T, T> transitionFunction)
     {
         StatelessMarkovChain<T> chain = new BasicStatelessMarkovChain<>();
 
@@ -29,7 +30,7 @@ public class StatelessMarkovChainGenerator<T> implements MarkovChainGenerator<T>
 
         while(!chain.endOFChain())
         {
-            phrase.add(chain.generate(transitionFunction));
+            Optional.ofNullable(chain.generate(transitionFunction)).ifPresent(phrase::add);
         }
 
         return phrase;

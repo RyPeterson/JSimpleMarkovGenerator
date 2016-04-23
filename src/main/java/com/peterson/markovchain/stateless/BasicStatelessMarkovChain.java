@@ -1,23 +1,23 @@
 package com.peterson.markovchain.stateless;
 
-import java.util.function.Function;
+import com.peterson.markovchain.stateless.functions.StateTransitionFunction;
 
 /**
  * Created by Ryan Peterson on 4/20/2016.
  */
-public class BasicStatelessMarkovChain<T> implements StatelessMarkovChain<T>
+class BasicStatelessMarkovChain<T> implements StatelessMarkovChain<T>
 {
 
     private T currentState;
     private boolean isEnded;
 
-    public BasicStatelessMarkovChain()
+    BasicStatelessMarkovChain()
     {
         currentState = null;
     }
 
     @Override
-    public T generate(Function<T, T> transitionFunction)
+    public T generate(StateTransitionFunction<T, T> transitionFunction)
     {
         currentState = transitionFunction.apply(currentState);
         isEnded = currentState == null;

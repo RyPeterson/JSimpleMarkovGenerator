@@ -1,7 +1,8 @@
 package com.peterson.markovchain.stateless;
 
+import com.peterson.markovchain.stateless.functions.StateTransitionFunction;
+
 import java.util.Collection;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -13,7 +14,7 @@ public interface MarkovChainGenerator<T>
      * Create a single chain.
      * @return a constructed chain.
      */
-    Collection<T> generateChain(Function<T, T> transitionFunction);
+    Collection<T> generateChain(StateTransitionFunction<T, T> transitionFunction);
 
     /**
      * Given a supplier, create a new chain.
