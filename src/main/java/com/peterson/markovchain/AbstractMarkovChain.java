@@ -13,8 +13,6 @@ public abstract class AbstractMarkovChain implements MarkovChain
 
     protected Pattern splitPattern;
 
-    protected WordTransformer transformer;
-
     public AbstractMarkovChain()
     {
         setRand(new Random());
@@ -30,10 +28,6 @@ public abstract class AbstractMarkovChain implements MarkovChain
         this.splitPattern = pattern;
     }
 
-    protected void setWordTransformer(WordTransformer transformer)
-    {
-        this.transformer = transformer;
-    }
 
     protected int randInt(int upper)
     {
@@ -88,12 +82,6 @@ public abstract class AbstractMarkovChain implements MarkovChain
         public Builder setPattern(Pattern regexPattern)
         {
             instance.setSplitPattern(regexPattern);
-            return this;
-        }
-
-        public Builder setTransformer(WordTransformer transformer)
-        {
-            instance.setWordTransformer(transformer);
             return this;
         }
 

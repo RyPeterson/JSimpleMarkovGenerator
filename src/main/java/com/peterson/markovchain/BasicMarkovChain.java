@@ -37,7 +37,6 @@ public class BasicMarkovChain extends AbstractMarkovChain
         rand = new Random();
         suffixSet = new HashSet<>();
         super.setSplitPattern(regexPattern);
-        super.setWordTransformer(new EmptyTransformer());
     }
 
     public void addPhrase(String phrase)
@@ -135,7 +134,6 @@ public class BasicMarkovChain extends AbstractMarkovChain
         Map<String, List<String>> chains = newMap();
         chains.putAll(this.markovChain);
         copy.markovChain = chains;
-        copy.transformer = this.transformer;
 
         return copy;
     }

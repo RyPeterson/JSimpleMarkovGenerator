@@ -3,8 +3,6 @@ package com.peterson.markovchain.io;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.InstanceCreator;
-import com.peterson.markovchain.EmptyTransformer;
-import com.peterson.markovchain.WordTransformer;
 
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -16,7 +14,6 @@ public class SerializationHelper
 {
     private static final Gson SERIALIZER = new GsonBuilder()
             .setPrettyPrinting()
-            .registerTypeAdapter(WordTransformer.class, (InstanceCreator<WordTransformer>) type -> new EmptyTransformer())
             .registerTypeAdapter(ReadWriteLock.class, (InstanceCreator<ReadWriteLock>) type -> new ReentrantReadWriteLock(true)) //Dont really care about 1:1 serialization of this
             .create();
 

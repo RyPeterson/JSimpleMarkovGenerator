@@ -162,7 +162,6 @@ public class SeedableMarkovChain extends AbstractSeedableMarkovChain
         Map<String, List<Link>> map = newSeedableMap();
         map.putAll(this.markovChain);
         copy.markovChain = map;
-        copy.transformer = this.transformer;
         return copy;
     }
 

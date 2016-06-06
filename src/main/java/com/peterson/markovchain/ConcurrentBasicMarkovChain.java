@@ -53,7 +53,6 @@ public class ConcurrentBasicMarkovChain extends BasicMarkovChain
         Map<String, List<String>> chains = newMap();
         chains.putAll(this.markovChain);
         copy.markovChain = chains;
-        copy.transformer = this.transformer;
 
         return copy;
     }
