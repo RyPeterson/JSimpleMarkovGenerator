@@ -1,6 +1,7 @@
 package com.peterson.markovchain;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 
 /**
@@ -109,12 +110,7 @@ public abstract class AbstractMarkovChain implements MarkovChain
 
     protected void put(String key, String current, Map<String, List<String>> chains)
     {
-        List<String> list = chains.get(key);
-        if(list == null)
-        {
-            list = newList();
-            chains.put(key, list);
-        }
+        List<String> list = chains.computeIfAbsent(key, (s) -> newList());
         list.add(current);
     }
 }
