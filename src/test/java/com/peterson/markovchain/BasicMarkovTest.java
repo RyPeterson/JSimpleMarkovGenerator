@@ -197,7 +197,6 @@ public class BasicMarkovTest
         //fine with a spaces on either end
         String result = markovChain.generateSentence().trim();
 
-        //TODO: why does this fail with Syn. BasicMarkovTest?
         Assert.assertEquals("She sells seashells by the seashore.", result);
 
         rand = new MockRandom(0,0,1,0,0,0,0,0,0,0,0,0,0,0);
