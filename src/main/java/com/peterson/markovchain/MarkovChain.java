@@ -1,7 +1,5 @@
 package com.peterson.markovchain;
 
-import java.util.Set;
-
 /**
  * @author Peterson, Ryan
  *         Created: 5/30/15

@@ -1,6 +1,9 @@
 package com.peterson.markovchain.io;
 
-import com.peterson.markovchain.*;
+import com.peterson.markovchain.BasicMarkovChain;
+import com.peterson.markovchain.ConcurrentBasicMarkovChain;
+import com.peterson.markovchain.MarkovChain;
+import com.peterson.markovchain.MarkovChainSerializationHelper;
 
 import java.io.IOException;
 import java.nio.file.Files;
