@@ -1,5 +1,8 @@
 package com.peterson.markovchain;
 
+import com.peterson.markovchain.stateless.random.BasicRandomNumberStrategy;
+import com.peterson.markovchain.stateless.random.RandomNumberStrategy;
+
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -9,16 +12,16 @@ import java.util.regex.Pattern;
  */
 public abstract class AbstractMarkovChain implements MarkovChain
 {
-    protected Random rand;
+    protected RandomNumberStrategy rand;
 
     protected Pattern splitPattern;
 
     public AbstractMarkovChain()
     {
-        setRand(new Random());
+        setRand(new BasicRandomNumberStrategy());
     }
 
-    protected void setRand(Random rand)
+    protected void setRand(RandomNumberStrategy rand)
     {
         this.rand = rand;
     }
@@ -85,7 +88,7 @@ public abstract class AbstractMarkovChain implements MarkovChain
             return this;
         }
 
-        public Builder setRandom(Random rand)
+        public Builder setRandom(RandomNumberStrategy rand)
         {
             instance.setRand(rand);
             return this;

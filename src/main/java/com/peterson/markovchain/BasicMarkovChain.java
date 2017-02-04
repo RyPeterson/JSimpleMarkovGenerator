@@ -1,5 +1,7 @@
 package com.peterson.markovchain;
 
+import com.peterson.markovchain.stateless.random.BasicRandomNumberStrategy;
+
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -34,7 +36,7 @@ public class BasicMarkovChain extends AbstractMarkovChain
     public BasicMarkovChain(Pattern regexPattern)
     {
         markovChain = newMap();
-        rand = new Random();
+        rand = new BasicRandomNumberStrategy();
         suffixSet = new HashSet<>();
         super.setSplitPattern(regexPattern);
     }

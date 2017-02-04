@@ -1,5 +1,6 @@
 package com.peterson.markovchain;
 
+import com.peterson.markovchain.stateless.random.RandomNumberStrategy;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -185,7 +186,7 @@ public class BasicMarkovTest
     @Test
     public void practicalTest()
     {
-        Random rand = new MockRandom(0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+        RandomNumberStrategy rand = new MockRandomNumberStrategy(0,0,0,0,0,0,0,0,0,0,0,0,0,0);
         markovChain.setRand(rand);
 
         markovChain.addPhrase("She sells seashells by the seashore.");
@@ -199,31 +200,31 @@ public class BasicMarkovTest
 
         Assert.assertEquals("She sells seashells by the seashore.", result);
 
-        rand = new MockRandom(0,0,1,0,0,0,0,0,0,0,0,0,0,0);
+        rand = new MockRandomNumberStrategy(0,0,1,0,0,0,0,0,0,0,0,0,0,0);
         markovChain.setRand(rand);
         result = markovChain.generateSentence().trim();
 
         Assert.assertEquals("She sells oddball by the seashore.", result);
 
-        rand = new MockRandom(0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0);
+        rand = new MockRandomNumberStrategy(0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0);
         markovChain.setRand(rand);
         result = markovChain.generateSentence().trim();
 
         Assert.assertEquals("She sells seashells by the dozen.", result);
 
-        rand = new MockRandom(0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0);
+        rand = new MockRandomNumberStrategy(0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0);
         markovChain.setRand(rand);
         result = markovChain.generateSentence().trim();
 
         Assert.assertEquals("She sells seashells by the ounce.", result);
 
-        rand = new MockRandom(4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+        rand = new MockRandomNumberStrategy(4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
         markovChain.setRand(rand);
         result = markovChain.generateSentence().trim();
 
         Assert.assertEquals("He sells seashells by the seashore.", result);
 
-        rand = new MockRandom(4,0,4,0,0,4,0,0,0,0,0,0,0,0,0,0);
+        rand = new MockRandomNumberStrategy(4,0,4,0,0,4,0,0,0,0,0,0,0,0,0,0);
         markovChain.setRand(rand);
         result = markovChain.generateSentence().trim();
 
@@ -297,5 +298,21 @@ public class BasicMarkovTest
             b.append(genString()).append(" ");
         }
         return b.toString().trim();
+    }
+
+    static class MockRandomNumberStrategy implements RandomNumberStrategy
+    {
+        private MockRandom rand;
+
+        public MockRandomNumberStrategy(Integer... randoms)
+        {
+            rand = new MockRandom(randoms);
+        }
+
+        @Override
+        public int nextInt(int upperBound)
+        {
+            return rand.nextInt(upperBound);
+        }
     }
 }

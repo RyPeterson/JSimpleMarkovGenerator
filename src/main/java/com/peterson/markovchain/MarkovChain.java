@@ -9,10 +9,10 @@ public interface MarkovChain
     String NO_CHAIN = "-null";
 
     /* Signal the start of the chain */
-    String CHAIN_START = "$";
+    String CHAIN_START = "$_MARKOV_CHAIN_START";
 
     /* Signal the end of the chain */
-    String CHAIN_END = "@";
+    String CHAIN_END = "@_MARKOV_CHAIN_END";
 
     /* Regex to separate words by */
     String WORD_REGEX = "\\s+";
