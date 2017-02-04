@@ -44,18 +44,24 @@ public class BasicMarkovChain extends AbstractMarkovChain
     public void addPhrase(String phrase)
     {
         if(phrase == null)
+        {
             return;
+        }
 
         //check that its not just a new line or carrage return.
         if(MarkovChainUtilities.hasWhitespaceError(phrase))
+        {
             return;
+        }
 
         //ensure that the phrase has ending punctuation
         if(!MarkovChainUtilities.PUNCTUATION_SET.contains(MarkovChainUtilities.endChar(phrase)))
+        {
             phrase += DEFAULT_PHRASE_END;
+        }
 
 
-        String []words = super.splitPattern.split(phrase);
+        String[] words = super.splitPattern.split(phrase);
 
         for(int i = 0; i < words.length; i++)
         {
@@ -77,9 +83,7 @@ public class BasicMarkovChain extends AbstractMarkovChain
         }
     }
 
-
-
-
+    @Override
     public String generateSentence()
     {
         StringBuilder sentence = new StringBuilder();
@@ -88,7 +92,9 @@ public class BasicMarkovChain extends AbstractMarkovChain
 
         next = generate(CHAIN_START);
         if(next == null)
+        {
             return NO_CHAIN;
+        }
         sentence.append(next).append(" ");
 
         if(next.length() - 1 > 0)
@@ -107,7 +113,9 @@ public class BasicMarkovChain extends AbstractMarkovChain
     {
         //if the suffix set does not contain the see, then what is the point of starting there?
         if(!suffixSet.contains(seed))
+        {
             return generateSentence();
+        }
 
         StringBuilder sentence = new StringBuilder(seed).append(" ");
         String next;
@@ -115,7 +123,9 @@ public class BasicMarkovChain extends AbstractMarkovChain
 
         next = generate(seed);
         if(next == null)
+        {
             return NO_CHAIN;
+        }
 
         sentence.append(next).append(" ");
 
@@ -150,9 +160,13 @@ public class BasicMarkovChain extends AbstractMarkovChain
     {
         List<String> word = markovChain.get(seed);
         if(word != null && word.size() > 0)
+        {
             return word.get(randInt(word.size()));
+        }
         else
+        {
             return null;
+        }
     }
 
     /**
