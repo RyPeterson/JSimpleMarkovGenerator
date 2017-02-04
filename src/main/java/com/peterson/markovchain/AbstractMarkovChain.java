@@ -1,5 +1,7 @@
 package com.peterson.markovchain;
 
+import com.peterson.markovchain.io.PostDeserializationStrategy;
+import com.peterson.markovchain.io.TrainingInterceptor;
 import com.peterson.markovchain.stateless.random.BasicRandomNumberStrategy;
 import com.peterson.markovchain.stateless.random.RandomNumberStrategy;
 
@@ -16,9 +18,12 @@ public abstract class AbstractMarkovChain implements MarkovChain
 
     protected Pattern splitPattern;
 
+    protected List<TrainingInterceptor> trainingInterceptors;
+
     public AbstractMarkovChain()
     {
         setRand(new BasicRandomNumberStrategy());
+        this.trainingInterceptors = new ArrayList<>();
     }
 
     protected void setRand(RandomNumberStrategy rand)
@@ -29,6 +34,12 @@ public abstract class AbstractMarkovChain implements MarkovChain
     protected void setSplitPattern(Pattern pattern)
     {
         this.splitPattern = pattern;
+    }
+
+    @Override
+    public void acceptInterceptor(TrainingInterceptor interceptor)
+    {
+        this.trainingInterceptors.add(interceptor);
     }
 
 
@@ -112,7 +123,37 @@ public abstract class AbstractMarkovChain implements MarkovChain
 
     protected void put(String key, String current, Map<String, List<String>> chains)
     {
+        this.trainingInterceptors.forEach((interceptor -> interceptor.intercept(key, current)));
         List<String> list = chains.computeIfAbsent(key, (s) -> newList());
         list.add(current);
+    }
+
+    public static class AbstractMarkovChainSerializationStrategy implements PostDeserializationStrategy
+    {
+        private final RandomNumberStrategy randomNumberStrategy;
+        private final Pattern splitPattern;
+
+        public AbstractMarkovChainSerializationStrategy(RandomNumberStrategy randomNumberStrategy)
+        {
+            this(randomNumberStrategy, Pattern.compile(MarkovChain.WORD_REGEX));
+        }
+
+        public AbstractMarkovChainSerializationStrategy(RandomNumberStrategy randomNumberStrategy, Pattern splitPattern)
+        {
+            this.randomNumberStrategy = randomNumberStrategy;
+            this.splitPattern = splitPattern;
+        }
+
+        @Override
+        public void postDeserializationInitialization(MarkovChain markovChain)
+        {
+            if(markovChain instanceof AbstractMarkovChain)
+            {
+                AbstractMarkovChain abstractMarkovChain = (AbstractMarkovChain) markovChain;
+                abstractMarkovChain.trainingInterceptors = new ArrayList<>();
+                abstractMarkovChain.setRand(randomNumberStrategy);
+                abstractMarkovChain.setSplitPattern(splitPattern);
+            }
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.peterson.markovchain;
 
+import com.peterson.markovchain.stateless.random.RandomNumberStrategy;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +20,7 @@ import java.util.regex.Pattern;
  */
 public class ConcurrentBasicMarkovChain extends BasicMarkovChain
 {
-    private ReadWriteLock readWriteLock;
+    protected ReadWriteLock readWriteLock;
 
     /**
      * Constructs a synchronized version of the generator.
@@ -114,6 +116,30 @@ public class ConcurrentBasicMarkovChain extends BasicMarkovChain
         finally
         {
             readWriteLock.writeLock().unlock();
+        }
+    }
+
+    public static class ConcurrentBasicMarkovChainDeserializationStrategy extends BasicMarkovChainDeserializationStrategy
+    {
+        public ConcurrentBasicMarkovChainDeserializationStrategy(RandomNumberStrategy randomNumberStrategy)
+        {
+            super(randomNumberStrategy);
+        }
+
+        public ConcurrentBasicMarkovChainDeserializationStrategy(RandomNumberStrategy randomNumberStrategy, Pattern splitPattern)
+        {
+            super(randomNumberStrategy, splitPattern);
+        }
+
+        @Override
+        public void postDeserializationInitialization(MarkovChain markovChain)
+        {
+            super.postDeserializationInitialization(markovChain);
+            if(markovChain instanceof ConcurrentBasicMarkovChain)
+            {
+                ConcurrentBasicMarkovChain concurrentBasicMarkovChain = (ConcurrentBasicMarkovChain) markovChain;
+                concurrentBasicMarkovChain.readWriteLock = new ReentrantReadWriteLock(true);
+            }
         }
     }
 }

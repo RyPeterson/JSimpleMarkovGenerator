@@ -1,5 +1,7 @@
 package com.peterson.markovchain;
 
+import com.peterson.markovchain.io.TrainingInterceptor;
+
 /**
  * @author Peterson, Ryan
  *         Created: 5/30/15
@@ -56,4 +58,5 @@ public interface MarkovChain
     MarkovChain copy();
 
 
+    void acceptInterceptor(TrainingInterceptor interceptor);
 }
