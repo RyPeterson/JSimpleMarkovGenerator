@@ -16,10 +16,12 @@ import java.util.Map;
  */
 public class MarkovChainDeserializer
 {
-    public static MarkovChain deserialzeJSON(Path path, Class<? extends MarkovChain> classType) throws IOException
+    public static MarkovChain deserialzeJSON(Path path, Class<? extends MarkovChain> classType, PostDeserializationStrategy postDeserializationStrategy) throws IOException
     {
         String json = new String(Files.readAllBytes(path));
-        return SerializationHelper.getInstance().fromJson(json, classType);
+        MarkovChain chain = SerializationHelper.getInstance().fromJson(json, classType);
+        postDeserializationStrategy.postDeserializationInitialization(chain);
+        return chain;
     }
 
     public static MarkovChain deserializeFromMap(Path path, boolean concurrent, boolean seedable) throws IOException
