@@ -1,6 +1,5 @@
 package com.peterson.markovchain;
 
-import com.peterson.markovchain.io.PostDeserializationStrategy;
 import com.peterson.markovchain.stateless.random.RandomNumberStrategy;
 import org.junit.After;
 import org.junit.Assert;
@@ -9,11 +8,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Random;
-import java.util.regex.Pattern;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
 
 /**
  * @author Peterson, Ryan
@@ -280,33 +274,6 @@ public class BasicMarkovTest
 
             size *= chunkMult;
         }
-    }
-
-    @Test
-    public void testPostDeserializationInitalization()
-    {
-        BasicMarkovChain chain = spy(new BasicMarkovChain());
-
-        Pattern pattern = Pattern.compile("");
-        RandomNumberStrategy strategy = mock(RandomNumberStrategy.class);
-
-        PostDeserializationStrategy postDeserializationStrategy = constructStrategy(strategy, pattern);
-
-        postDeserializationStrategy.postDeserializationInitialization(chain);
-        Assert.assertNotNull(chain.trainingInterceptors);
-        Assert.assertNotNull(chain.suffixSet);
-        verify(chain).setRand(strategy);
-        verify(chain).setSplitPattern(pattern);
-    }
-
-    protected PostDeserializationStrategy constructStrategy(RandomNumberStrategy strategy, Pattern pattern)
-    {
-        return new BasicMarkovChain.BasicMarkovChainDeserializationStrategy(strategy, pattern);
-    }
-
-    protected BasicMarkovChain constructDeserializedChain()
-    {
-        return new BasicMarkovChain();
     }
 
     private String genString()

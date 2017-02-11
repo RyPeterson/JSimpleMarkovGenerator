@@ -1,13 +1,10 @@
 package com.peterson.markovchain;
 
-import com.peterson.markovchain.stateless.random.RandomNumberStrategy;
-
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.regex.Pattern;
 
 /**
  * Extension of the BasicMarkovChain to provide synchronized access to the generator.
@@ -76,26 +73,4 @@ public class ConcurrentBasicMarkovChain extends BasicMarkovChain
         super.addPhrase(phrase);
     }
 
-    public static class ConcurrentBasicMarkovChainDeserializationStrategy extends BasicMarkovChainDeserializationStrategy
-    {
-        public ConcurrentBasicMarkovChainDeserializationStrategy(RandomNumberStrategy randomNumberStrategy)
-        {
-            super(randomNumberStrategy);
-        }
-
-        public ConcurrentBasicMarkovChainDeserializationStrategy(RandomNumberStrategy randomNumberStrategy, Pattern splitPattern)
-        {
-            super(randomNumberStrategy, splitPattern);
-        }
-
-        @Override
-        public void postDeserializationInitialization(MarkovChain markovChain)
-        {
-            super.postDeserializationInitialization(markovChain);
-            if(markovChain instanceof ConcurrentBasicMarkovChain)
-            {
-                ConcurrentBasicMarkovChain concurrentBasicMarkovChain = (ConcurrentBasicMarkovChain) markovChain;
-            }
-        }
-    }
 }

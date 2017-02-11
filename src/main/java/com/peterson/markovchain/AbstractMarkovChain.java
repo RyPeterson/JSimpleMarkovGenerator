@@ -1,6 +1,5 @@
 package com.peterson.markovchain;
 
-import com.peterson.markovchain.io.PostDeserializationStrategy;
 import com.peterson.markovchain.io.TrainingInterceptor;
 import com.peterson.markovchain.stateless.random.BasicRandomNumberStrategy;
 import com.peterson.markovchain.stateless.random.RandomNumberStrategy;
@@ -126,34 +125,5 @@ public abstract class AbstractMarkovChain implements MarkovChain
         this.trainingInterceptors.forEach((interceptor -> interceptor.intercept(key, current)));
         List<String> list = chains.computeIfAbsent(key, (s) -> newList());
         list.add(current);
-    }
-
-    public static class AbstractMarkovChainSerializationStrategy implements PostDeserializationStrategy
-    {
-        private final RandomNumberStrategy randomNumberStrategy;
-        private final Pattern splitPattern;
-
-        public AbstractMarkovChainSerializationStrategy(RandomNumberStrategy randomNumberStrategy)
-        {
-            this(randomNumberStrategy, Pattern.compile(MarkovChain.WORD_REGEX));
-        }
-
-        public AbstractMarkovChainSerializationStrategy(RandomNumberStrategy randomNumberStrategy, Pattern splitPattern)
-        {
-            this.randomNumberStrategy = randomNumberStrategy;
-            this.splitPattern = splitPattern;
-        }
-
-        @Override
-        public void postDeserializationInitialization(MarkovChain markovChain)
-        {
-            if(markovChain instanceof AbstractMarkovChain)
-            {
-                AbstractMarkovChain abstractMarkovChain = (AbstractMarkovChain) markovChain;
-                abstractMarkovChain.trainingInterceptors = new ArrayList<>();
-                abstractMarkovChain.setRand(randomNumberStrategy);
-                abstractMarkovChain.setSplitPattern(splitPattern);
-            }
-        }
     }
 }

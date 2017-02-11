@@ -1,9 +1,11 @@
 package com.peterson.markovchain;
 
 import com.peterson.markovchain.stateless.random.BasicRandomNumberStrategy;
-import com.peterson.markovchain.stateless.random.RandomNumberStrategy;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -175,30 +177,5 @@ public class BasicMarkovChain extends AbstractMarkovChain
         }
 
         return b.toString();
-    }
-
-    public static class BasicMarkovChainDeserializationStrategy extends AbstractMarkovChainSerializationStrategy
-    {
-
-        public BasicMarkovChainDeserializationStrategy(RandomNumberStrategy randomNumberStrategy)
-        {
-            super(randomNumberStrategy);
-        }
-
-        public BasicMarkovChainDeserializationStrategy(RandomNumberStrategy randomNumberStrategy, Pattern splitPattern)
-        {
-            super(randomNumberStrategy, splitPattern);
-        }
-
-        @Override
-        public void postDeserializationInitialization(MarkovChain markovChain)
-        {
-            super.postDeserializationInitialization(markovChain);
-            if(markovChain instanceof BasicMarkovChain)
-            {
-                BasicMarkovChain basicMarkovChain = (BasicMarkovChain) markovChain;
-                basicMarkovChain.suffixSet = new HashSet<>(basicMarkovChain.markovChain.keySet()); //TODO and why are we not using the Map#keySet in place of the suffixSet?
-            }
-        }
     }
 }
