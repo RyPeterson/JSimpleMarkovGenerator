@@ -154,36 +154,6 @@ public class BasicMarkovTest
     }
 
     @Test
-    public void testGenerateOnSeedStart()
-    {
-        testOnSeed("To");
-    }
-
-    @Test
-    public void testGenerateOnSeedMid()
-    {
-        testOnSeed("that");
-    }
-
-    @Test
-    public void testGenerateOnSeedEnd()
-    {
-        testOnSeed("question");
-    }
-
-    @Test
-    public void testGenerateOnSeedNotExistent()
-    {
-        testOnSeed("foobar");
-    }
-
-    @Test
-    public void testGenerateOnNullSeed()
-    {
-        testOnSeed(null);
-    }
-
-    @Test
     public void practicalTest()
     {
         RandomNumberStrategy rand = new MockRandomNumberStrategy(0,0,0,0,0,0,0,0,0,0,0,0,0,0);
@@ -232,25 +202,6 @@ public class BasicMarkovTest
 
     }
 
-    private void testOnSeed(String seed)
-    {
-        String result = null;
-        boolean thrown = false;
-
-        try
-        {
-            result = markovChain.generateSentence(seed);
-        }
-        catch (Exception e)
-        {
-            thrown = true;
-            e.printStackTrace();
-        }
-
-        Assert.assertFalse(thrown);
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result.length() != 0);
-    }
 
     @Test
     public void loadTest()

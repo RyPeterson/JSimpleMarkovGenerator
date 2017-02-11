@@ -62,12 +62,6 @@ public class ConcurrentBasicMarkovChain extends BasicMarkovChain
     }
 
     @Override
-    public String generateSentence(String seed)
-    {
-        return super.generateSentence(seed);
-    }
-
-    @Override
     public void addPhrase(String phrase)
     {
         super.addPhrase(phrase);

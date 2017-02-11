@@ -124,7 +124,7 @@ public class SeedableMarkovChain extends AbstractSeedableMarkovChain
         return sentence.toString();
     }
 
-    @Override
+
     public String generateSentence(String seed)
     {
         //determine if the seed word is in a chain

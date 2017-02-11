@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Created by Ryan Peterson on 4/17/2016.
  */
-public abstract class AbstractSeedableMarkovChain extends AbstractMarkovChain
+public abstract class AbstractSeedableMarkovChain extends AbstractMarkovChain implements GenerateOnSeedMarkovChain
 {
 
     protected Map<String, List<SeedableMarkovChain.Link>> newSeedableMap()

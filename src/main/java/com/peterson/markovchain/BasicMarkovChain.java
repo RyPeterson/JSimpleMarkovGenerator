@@ -111,35 +111,6 @@ public class BasicMarkovChain extends AbstractMarkovChain
         return sentence.toString();
     }
 
-
-    public String generateSentence(String seed)
-    {
-        //if the suffix set does not contain the see, then what is the point of starting there?
-        if(!suffixSet.contains(seed))
-        {
-            return generateSentence();
-        }
-
-        StringBuilder sentence = new StringBuilder(seed).append(" ");
-        String next;
-
-
-        next = generate(seed);
-        if(next == null)
-        {
-            return NO_CHAIN;
-        }
-
-        sentence.append(next).append(" ");
-
-        while(!MarkovChainUtilities.PUNCTUATION_SET.contains(next.charAt(next.length() - 1)))
-        {
-            next = generate(next);
-            sentence.append(next).append(" ");
-        }
-        return sentence.toString();
-    }
-
     /**
      * Private helper method to get the next element in the chain.
      * If the seed cannot be found in the set, null is returned and should (and is) handled elsewhere
