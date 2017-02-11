@@ -2,14 +2,11 @@ package com.peterson.markovchain;
 
 import com.peterson.markovchain.stateless.random.RandomNumberStrategy;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.regex.Pattern;
 
 /**
@@ -20,7 +17,6 @@ import java.util.regex.Pattern;
  */
 public class ConcurrentBasicMarkovChain extends BasicMarkovChain
 {
-    protected ReadWriteLock readWriteLock;
 
     /**
      * Constructs a synchronized version of the generator.
@@ -30,7 +26,6 @@ public class ConcurrentBasicMarkovChain extends BasicMarkovChain
     public ConcurrentBasicMarkovChain()
     {
         super();
-        readWriteLock = new ReentrantReadWriteLock(true);
     }
 
     /**
@@ -43,20 +38,6 @@ public class ConcurrentBasicMarkovChain extends BasicMarkovChain
         this();
         for (String s : phrases)
             super.addPhrase(s);
-    }
-
-    @Override
-    public MarkovChain copy()
-    {
-        final Pattern pcopy = Pattern.compile(super.splitPattern.pattern());
-        BasicMarkovChain copy = new ConcurrentBasicMarkovChain();
-        copy.setSplitPattern(pcopy);
-        copy.suffixSet = new HashSet<>(super.suffixSet);
-        Map<String, List<String>> chains = newMap();
-        chains.putAll(this.markovChain);
-        copy.markovChain = chains;
-
-        return copy;
     }
 
     @Override
@@ -80,43 +61,19 @@ public class ConcurrentBasicMarkovChain extends BasicMarkovChain
     @Override
     public String generateSentence()
     {
-        readWriteLock.readLock().lock();
-        try
-        {
-            return super.generateSentence();
-        }
-        finally
-        {
-            readWriteLock.readLock().unlock();
-        }
+        return super.generateSentence();
     }
 
     @Override
     public String generateSentence(String seed)
     {
-        readWriteLock.readLock().lock();
-        try
-        {
-            return super.generateSentence(seed);
-        }
-        finally
-        {
-            readWriteLock.readLock().unlock();
-        }
+        return super.generateSentence(seed);
     }
 
     @Override
     public void addPhrase(String phrase)
     {
-        readWriteLock.writeLock().lock();
-        try
-        {
-            super.addPhrase(phrase);
-        }
-        finally
-        {
-            readWriteLock.writeLock().unlock();
-        }
+        super.addPhrase(phrase);
     }
 
     public static class ConcurrentBasicMarkovChainDeserializationStrategy extends BasicMarkovChainDeserializationStrategy
@@ -138,7 +95,6 @@ public class ConcurrentBasicMarkovChain extends BasicMarkovChain
             if(markovChain instanceof ConcurrentBasicMarkovChain)
             {
                 ConcurrentBasicMarkovChain concurrentBasicMarkovChain = (ConcurrentBasicMarkovChain) markovChain;
-                concurrentBasicMarkovChain.readWriteLock = new ReentrantReadWriteLock(true);
             }
         }
     }

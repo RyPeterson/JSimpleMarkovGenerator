@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * A basic synchronized version of the SeedableMarkovChain.
@@ -16,7 +14,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 public class ConcurrentSeedableMarkovChain extends SeedableMarkovChain
 {
-    private ReadWriteLock readWriteLock;
 
     /**
      * Constructs the SynchronizedTraversableMarkovChain.
@@ -24,7 +21,6 @@ public class ConcurrentSeedableMarkovChain extends SeedableMarkovChain
     public ConcurrentSeedableMarkovChain()
     {
         super();
-        readWriteLock = new ReentrantReadWriteLock(true);
     }
 
     @Override
@@ -42,42 +38,18 @@ public class ConcurrentSeedableMarkovChain extends SeedableMarkovChain
     @Override
     public String generateSentence()
     {
-        readWriteLock.readLock().lock();
-        try
-        {
-            return super.generateSentence();
-        }
-        finally
-        {
-            readWriteLock.readLock().unlock();
-        }
+        return super.generateSentence();
     }
 
     @Override
     public String generateSentence(String seed)
     {
-        readWriteLock.readLock().lock();
-        try
-        {
-            return super.generateSentence(seed);
-        }
-        finally
-        {
-            readWriteLock.readLock().unlock();
-        }
+        return super.generateSentence(seed);
     }
 
     @Override
     public void addPhrase(String phrase)
     {
-        readWriteLock.writeLock().lock();
-        try
-        {
-            super.addPhrase(phrase);
-        }
-        finally
-        {
-            readWriteLock.writeLock().unlock();
-        }
+        super.addPhrase(phrase);
     }
 }

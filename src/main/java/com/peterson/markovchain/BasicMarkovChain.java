@@ -138,19 +138,6 @@ public class BasicMarkovChain extends AbstractMarkovChain
         return sentence.toString();
     }
 
-    @Override
-    public MarkovChain copy()
-    {
-        final Pattern pcopy = Pattern.compile(super.splitPattern.pattern());
-        BasicMarkovChain copy = new BasicMarkovChain(pcopy);
-        copy.suffixSet = new HashSet<>(this.suffixSet);
-        Map<String, List<String>> chains = newMap();
-        chains.putAll(this.markovChain);
-        copy.markovChain = chains;
-
-        return copy;
-    }
-
     /**
      * Private helper method to get the next element in the chain.
      * If the seed cannot be found in the set, null is returned and should (and is) handled elsewhere

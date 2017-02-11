@@ -12,8 +12,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
 
-import static org.mockito.Mockito.mock;
-
 /**
  * @author Peterson, Ryan
  *         Created: 6/9/15
@@ -55,19 +53,6 @@ public class SynchronizedBasicMarkovTest extends BasicMarkovTest
     public void practicalTest()
     {
         //TODO: why does the practical test fail with this version of the generator?
-    }
-
-    @Override
-    public void testPostDeserializationInitalization()
-    {
-        super.testPostDeserializationInitalization();
-        ConcurrentBasicMarkovChain concurrentBasicMarkovChain = (ConcurrentBasicMarkovChain) constructDeserializedChain();
-        concurrentBasicMarkovChain.readWriteLock = null;
-        Pattern pattern = Pattern.compile("");
-        RandomNumberStrategy strategy = mock(RandomNumberStrategy.class);
-        PostDeserializationStrategy postDeserializationStrategy = constructStrategy(strategy, pattern);
-        postDeserializationStrategy.postDeserializationInitialization(concurrentBasicMarkovChain);
-        Assert.assertNotNull(concurrentBasicMarkovChain.readWriteLock);
     }
 
     @Override

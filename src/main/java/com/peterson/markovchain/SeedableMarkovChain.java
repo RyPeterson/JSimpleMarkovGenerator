@@ -154,17 +154,6 @@ public class SeedableMarkovChain extends AbstractSeedableMarkovChain
         return runGenerator(current);
     }
 
-    @Override
-    public MarkovChain copy()
-    {
-        final Pattern pcopy = Pattern.compile(super.splitPattern.pattern());
-        SeedableMarkovChain copy = new SeedableMarkovChain(pcopy);
-        Map<String, List<Link>> map = newSeedableMap();
-        map.putAll(this.markovChain);
-        copy.markovChain = map;
-        return copy;
-    }
-
     private Link findLink(List<Link> linkList, final Link toFind)
     {
         for(Link l : linkList)
