@@ -1,4 +1,4 @@
-package com.peterson.markovchain.stateless.random;
+package com.peterson.markovchain.random;
 
 import java.util.concurrent.ThreadLocalRandom;
 

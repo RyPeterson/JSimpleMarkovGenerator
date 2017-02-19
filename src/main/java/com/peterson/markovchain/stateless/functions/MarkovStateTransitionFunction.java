@@ -1,6 +1,6 @@
 package com.peterson.markovchain.stateless.functions;
 
-import com.peterson.markovchain.stateless.random.RandomNumberStrategy;
+import com.peterson.markovchain.random.RandomNumberStrategy;
 import com.peterson.markovchain.stateless.storage.MarkovChainStorage;
 
 import java.util.ArrayList;

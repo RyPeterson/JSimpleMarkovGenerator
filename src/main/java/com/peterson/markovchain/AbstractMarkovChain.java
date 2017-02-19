@@ -1,8 +1,8 @@
 package com.peterson.markovchain;
 
 import com.peterson.markovchain.io.TrainingInterceptor;
-import com.peterson.markovchain.stateless.random.BasicRandomNumberStrategy;
-import com.peterson.markovchain.stateless.random.RandomNumberStrategy;
+import com.peterson.markovchain.random.BasicRandomNumberStrategy;
+import com.peterson.markovchain.random.RandomNumberStrategy;
 
 import java.util.*;
 import java.util.regex.Pattern;

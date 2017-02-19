@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import com.peterson.markovchain.stateless.StatelessMarkovChainGenerator;
 import com.peterson.markovchain.stateless.functions.MarkovStateTransitionFunction;
 import com.peterson.markovchain.stateless.functions.StateTransitionFunction;
-import com.peterson.markovchain.stateless.random.BasicRandomNumberStrategy;
+import com.peterson.markovchain.random.BasicRandomNumberStrategy;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

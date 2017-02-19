@@ -1,4 +1,4 @@
-package com.peterson.markovchain.stateless.random;
+package com.peterson.markovchain.random;
 
 /**
  * A strategy to create a random number.

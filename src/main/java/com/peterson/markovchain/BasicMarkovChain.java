@@ -1,6 +1,6 @@
 package com.peterson.markovchain;
 
-import com.peterson.markovchain.stateless.random.BasicRandomNumberStrategy;
+import com.peterson.markovchain.random.BasicRandomNumberStrategy;
 
 import java.util.HashSet;
 import java.util.List;

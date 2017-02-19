@@ -1,6 +1,6 @@
 package com.peterson.markovchain;
 
-import com.peterson.markovchain.stateless.random.RandomNumberStrategy;
+import com.peterson.markovchain.random.RandomNumberStrategy;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
