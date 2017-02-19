@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 public abstract class AbstractMarkovChain implements MarkovChain
 {
     protected final MarkovGenerator<String> generator;
-    protected final MarkovState<String> state;
+    protected MarkovState<String> state;
 
     protected Pattern splitPattern;
 
