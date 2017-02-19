@@ -1,10 +1,10 @@
 package com.peterson.markovchain;
 
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ThreadLocalRandom;
+import com.peterson.markovchain.generation.MarkovGenerator;
+import com.peterson.markovchain.random.ThreadLocalRandomNumberStrategy;
+import com.peterson.markovchain.state.ConcurrentMarkovState;
+
+import java.util.regex.Pattern;
 
 /**
  * Extension of the BasicMarkovChain to provide synchronized access to the generator.
@@ -12,7 +12,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author Peterson, Ryan
  *         Created: 6/8/15
  */
-public class ConcurrentBasicMarkovChain extends BasicMarkovChain
+public class ConcurrentBasicMarkovChain extends AbstractMarkovChain
 {
 
     /**
@@ -22,49 +22,12 @@ public class ConcurrentBasicMarkovChain extends BasicMarkovChain
      */
     public ConcurrentBasicMarkovChain()
     {
-        super();
+        super(new MarkovGenerator<>(new ThreadLocalRandomNumberStrategy()), new ConcurrentMarkovState<>());
     }
 
-    /**
-     * Constructs a synchronized version of the generator using an initial set of phrases
-     *
-     * @param phrases the initial phrases to seed the generator with
-     */
-    public ConcurrentBasicMarkovChain(String... phrases)
+    public ConcurrentBasicMarkovChain(Pattern splitPattern)
     {
-        this();
-        for (String s : phrases)
-            super.addPhrase(s);
+        super(new MarkovGenerator<>(new ThreadLocalRandomNumberStrategy()), new ConcurrentMarkovState<>());
+        setSplitPattern(splitPattern);
     }
-
-    @Override
-    protected List<String> newList()
-    {
-        return new CopyOnWriteArrayList<>();
-    }
-
-    @Override
-    protected Map<String, List<String>> newMap()
-    {
-        return new ConcurrentHashMap<>();
-    }
-
-    @Override
-    protected int randInt(int upper)
-    {
-        return ThreadLocalRandom.current().nextInt(upper);
-    }
-
-    @Override
-    public String generateSentence()
-    {
-        return super.generateSentence();
-    }
-
-    @Override
-    public void addPhrase(String phrase)
-    {
-        super.addPhrase(phrase);
-    }
-
 }

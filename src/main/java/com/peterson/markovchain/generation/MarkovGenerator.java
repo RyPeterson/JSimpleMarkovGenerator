@@ -1,7 +1,7 @@
 package com.peterson.markovchain.generation;
 
-import com.peterson.markovchain.state.MarkovState;
 import com.peterson.markovchain.random.RandomNumberStrategy;
+import com.peterson.markovchain.state.MarkovState;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,9 +14,14 @@ import java.util.function.BiFunction;
  */
 public class MarkovGenerator<T> implements BiFunction<T, MarkovState<T>, Optional<T>>
 {
-    private final RandomNumberStrategy randomNumberStrategy;
+    private RandomNumberStrategy randomNumberStrategy;
 
     public MarkovGenerator(RandomNumberStrategy randomNumberStrategy)
+    {
+        this.randomNumberStrategy = randomNumberStrategy;
+    }
+
+    public void setRandomNumberStrategy(RandomNumberStrategy randomNumberStrategy)
     {
         this.randomNumberStrategy = randomNumberStrategy;
     }
