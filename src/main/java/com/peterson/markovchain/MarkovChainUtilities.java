@@ -1,9 +1,5 @@
 package com.peterson.markovchain;
 
-import com.google.common.collect.ImmutableSet;
-
-import java.util.Set;
-
 /**
  * Utility/Factory methods for Markov Chains.
  * @author Peterson, Ryan
@@ -11,7 +7,6 @@ import java.util.Set;
  */
 public class MarkovChainUtilities
 {
-    public static Set<Character> PUNCTUATION_SET = ImmutableSet.of('.', '?', '!', ';');
 
     public static boolean hasWhitespaceError(String phrase)
     {

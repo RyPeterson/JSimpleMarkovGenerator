@@ -1,5 +1,6 @@
 package com.peterson.markovchain;
 
+import com.peterson.markovchain.MarkovChainConstants.ChainDefaultValues;
 import com.peterson.markovchain.generation.MarkovGenerator;
 import com.peterson.markovchain.io.TrainingInterceptor;
 import com.peterson.markovchain.random.RandomNumberStrategy;
@@ -27,7 +28,7 @@ public abstract class AbstractMarkovChain implements MarkovChain
         this.generator = generator;
         this.state = state;
         this.trainingInterceptors = new ArrayList<>();
-        setSplitPattern(Pattern.compile(WORD_REGEX));
+        setSplitPattern(MarkovChainConstants.DEFAULT_WORD_REGEX);
     }
 
     protected void setSplitPattern(Pattern pattern)
@@ -78,9 +79,9 @@ public abstract class AbstractMarkovChain implements MarkovChain
         }
 
         //ensure that the phrase has ending punctuation
-        if(!MarkovChainUtilities.PUNCTUATION_SET.contains(MarkovChainUtilities.endChar(phrase)))
+        if(!MarkovChainConstants.PUNCTUATION_SET.contains(MarkovChainUtilities.endChar(phrase)))
         {
-            phrase += DEFAULT_PHRASE_END;
+            phrase += MarkovChainConstants.DEFAULT_PHRASE_END;
         }
 
 
@@ -91,12 +92,12 @@ public abstract class AbstractMarkovChain implements MarkovChain
             if(i == 0)
             {
                 String next = i + 1 < words.length ? words[i + 1] : null;
-                put(CHAIN_START, words[i]);
+                put(ChainDefaultValues.CHAIN_START.toString(), words[i]);
                 put(words[i], next);
             }
             else if(i == words.length - 1)
             {
-                put(CHAIN_END, words[i]);
+                put(ChainDefaultValues.CHAIN_END.toString(), words[i]);
             }
             else
             {
@@ -112,16 +113,16 @@ public abstract class AbstractMarkovChain implements MarkovChain
         String next;
 
 
-        next = generate(CHAIN_START);
+        next = generate(ChainDefaultValues.CHAIN_START.toString());
         if(next == null)
         {
-            return NO_CHAIN;
+            return ChainDefaultValues.NO_CHAIN.toString();
         }
         sentence.append(next).append(" ");
 
         if(next.length() - 1 > 0)
         {
-            while(!MarkovChainUtilities.PUNCTUATION_SET.contains(next.charAt(next.length() - 1)))
+            while(!MarkovChainConstants.PUNCTUATION_SET.contains(next.charAt(next.length() - 1)))
             {
                 next = generate(next);
                 sentence.append(next).append(" ");

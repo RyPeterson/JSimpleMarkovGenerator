@@ -24,7 +24,7 @@ public class BasicMarkovChain extends AbstractMarkovChain
      */
     public BasicMarkovChain()
     {
-        this(Pattern.compile(WORD_REGEX));
+        this(MarkovChainConstants.DEFAULT_WORD_REGEX);
     }
 
     public BasicMarkovChain(Pattern regexPattern)
