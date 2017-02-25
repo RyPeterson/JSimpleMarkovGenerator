@@ -1,4 +1,5 @@
-com.peterson.markovbot
-com.peterson.markovbot.cli
 com.peterson.markovchain
+com.peterson.markovchain.generation
 com.peterson.markovchain.io
+com.peterson.markovchain.random
+com.peterson.markovchain.state

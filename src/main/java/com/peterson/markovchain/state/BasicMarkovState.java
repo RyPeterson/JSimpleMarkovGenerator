@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * MarkovState that stores the chains as a HashMap of T keys to an ArrayList<T> of values.
+ * MarkovState that stores the chains as a HashMap of T keys to an ArrayList&lt;T&gt; of values.
  * This adds no concurrency to the state and is not thread safe.
  * Created by Ryan on 2/19/2017.
  */
