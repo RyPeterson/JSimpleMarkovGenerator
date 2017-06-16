@@ -1,5 +1,6 @@
 package com.peterson.markovchain;
 
+import java.util.Arrays;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
@@ -9,12 +10,12 @@ import java.util.concurrent.CyclicBarrier;
  */
 public class SimpleThread implements Runnable
 {
-    private MarkovChain sharedInstance;
+    private MarkovChain<String> sharedInstance;
     private CyclicBarrier barrierInstance;
     private String []phrases;
     private boolean exceptionThrown;
 
-    public SimpleThread(MarkovChain markInstance, CyclicBarrier barrier)
+    public SimpleThread(MarkovChain<String> markInstance, CyclicBarrier barrier)
     {
         sharedInstance = markInstance;
         barrierInstance = barrier;
@@ -40,8 +41,7 @@ public class SimpleThread implements Runnable
 
         try
         {
-            for (String s : phrases)
-                sharedInstance.addPhrase(s);
+            this.sharedInstance.addPhrase(Arrays.asList(phrases));
         }
         catch (Exception e)
         {

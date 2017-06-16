@@ -4,8 +4,6 @@ import com.peterson.markovchain.generation.MarkovGenerator;
 import com.peterson.markovchain.random.BasicRandomNumberStrategy;
 import com.peterson.markovchain.state.BasicMarkovState;
 
-import java.util.regex.Pattern;
-
 /**
  * Markov Chain Creation Class.
  * These are simple <a href="http://en.wikipedia.org/wiki/Markov_chain">Markov Chains</a> which are
@@ -16,20 +14,14 @@ import java.util.regex.Pattern;
  * @author Peterson, Ryan
  *         Created: 3/14/2015
  */
-public class BasicMarkovChain extends AbstractMarkovChain
+public class BasicMarkovChain<T> extends AbstractMarkovChain<T>
 {
     /**
      * Construct an empty chain.
      * This just initializes an empty chain in order to add things to it.
      */
-    public BasicMarkovChain()
+    public BasicMarkovChain(T startPlaceholder, T endPlaceholder)
     {
-        this(MarkovChainConstants.DEFAULT_WORD_REGEX);
-    }
-
-    public BasicMarkovChain(Pattern regexPattern)
-    {
-        super(new MarkovGenerator<>(new BasicRandomNumberStrategy()), new BasicMarkovState<>());
-        super.setSplitPattern(regexPattern);
+        super(new MarkovGenerator<>(new BasicRandomNumberStrategy()), new BasicMarkovState<>(), startPlaceholder, endPlaceholder);
     }
 }

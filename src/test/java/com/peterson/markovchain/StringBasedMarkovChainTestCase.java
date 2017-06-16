@@ -7,21 +7,21 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @author Peterson, Ryan
  *         Created: 6/9/15
  */
-public class BasicMarkovTest
+public class StringBasedMarkovChainTestCase
 {
-    protected AbstractMarkovChain markovChain;
+    protected StringMarkovChain markovChain;
     private static Random rand = new Random();
 
     @Before
     public void setUp()
     {
-        markovChain = new BasicMarkovChain();
+        markovChain = new StringMarkovChain(false);
     }
 
     @After
@@ -33,8 +33,7 @@ public class BasicMarkovTest
     private void loadChain() throws IOException
     {
         String []phrases = TestUtil.getTestData();
-        for(String s : phrases)
-            markovChain.addPhrase(s);
+        markovChain.addPhrase(new ArrayList<>(Arrays.asList(phrases)));
     }
 
     @Test
@@ -85,7 +84,7 @@ public class BasicMarkovTest
 
         try
         {
-            markovChain.addPhrase("");
+            markovChain.addPhrase(new ArrayList<>());
         }
         catch (StringIndexOutOfBoundsException e)
         {
@@ -108,8 +107,7 @@ public class BasicMarkovTest
         {
             for (int i = 0; i < 100; i++)
             {
-                for (String s : toSpam)
-                    markovChain.addPhrase(s);
+                markovChain.addPhrase(Arrays.asList(toSpam));
             }
         }
         catch (Exception e)
@@ -120,38 +118,6 @@ public class BasicMarkovTest
         Assert.assertFalse(exceptionThrown);
     }
 
-    @Test
-    public void testInputSaved()
-    {
-        try
-        {
-            loadChain();
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
-        }
-
-        String target = "Ryan";
-
-        boolean foundTarget = false;
-        int missCount = 0;
-
-        for(int i = 0; i < 1000; i++)
-        {
-            if(markovChain.generateSentence().contains(target))
-            {
-                foundTarget = true;
-                break;
-            }
-            else
-            {
-                missCount++;
-            }
-        }
-
-        Assert.assertTrue(foundTarget);
-    }
 
     @Test
     public void practicalTest()
@@ -159,46 +125,47 @@ public class BasicMarkovTest
         RandomNumberStrategy rand = new MockRandomNumberStrategy(0,0,0,0,0,0,0,0,0,0,0,0,0,0);
         markovChain.setRand(rand);
 
-        markovChain.addPhrase("She sells seashells by the seashore.");
-        markovChain.addPhrase("She sells oddball by the seashore.");
-        markovChain.addPhrase("She sells seashells by the dozen.");
-        markovChain.addPhrase("She sells seashells by the ounce.");
-        markovChain.addPhrase("He sells barbells by the redbull.");
+        markovChain.addPhrase(Arrays.asList("She sells seashells by the seashore.".split(" ")));
+        markovChain.addPhrase(Arrays.asList("She sells oddball by the seashore.".split(" ")));
+        markovChain.addPhrase(Arrays.asList("She sells seashells by the dozen.".split(" ")));
+        markovChain.addPhrase(Arrays.asList("She sells seashells by the ounce.".split(" ")));
+        markovChain.addPhrase(Arrays.asList("He sells barbells by the redbull.".split(" ")));
 
         //fine with a spaces on either end
-        String result = markovChain.generateSentence().trim();
+        Collection<String> result = markovChain.generateSentence();
 
-        Assert.assertEquals("She sells seashells by the seashore.", result);
+
+        Assert.assertEquals("She sells seashells by the seashore.", toString(result));
 
         rand = new MockRandomNumberStrategy(0,0,1,0,0,0,0,0,0,0,0,0,0,0);
         markovChain.setRand(rand);
-        result = markovChain.generateSentence().trim();
+        result = markovChain.generateSentence();
 
-        Assert.assertEquals("She sells oddball by the seashore.", result);
+        Assert.assertEquals("She sells oddball by the seashore.", toString(result));
 
         rand = new MockRandomNumberStrategy(0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0);
         markovChain.setRand(rand);
-        result = markovChain.generateSentence().trim();
+        result = markovChain.generateSentence();
 
-        Assert.assertEquals("She sells seashells by the dozen.", result);
+        Assert.assertEquals("She sells seashells by the dozen.", toString(result));
 
         rand = new MockRandomNumberStrategy(0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0);
         markovChain.setRand(rand);
-        result = markovChain.generateSentence().trim();
+        result = markovChain.generateSentence();
 
-        Assert.assertEquals("She sells seashells by the ounce.", result);
+        Assert.assertEquals("She sells seashells by the ounce.", toString(result));
 
         rand = new MockRandomNumberStrategy(4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
         markovChain.setRand(rand);
-        result = markovChain.generateSentence().trim();
+        result = markovChain.generateSentence();
 
-        Assert.assertEquals("He sells seashells by the seashore.", result);
+        Assert.assertEquals("He sells seashells by the seashore.", toString(result));
 
         rand = new MockRandomNumberStrategy(4,0,4,0,0,4,0,0,0,0,0,0,0,0,0,0);
         markovChain.setRand(rand);
-        result = markovChain.generateSentence().trim();
+        result = markovChain.generateSentence();
 
-        Assert.assertEquals("He sells barbells by the redbull.", result);
+        Assert.assertEquals("He sells barbells by the redbull.", toString(result));
 
     }
 
@@ -218,9 +185,9 @@ public class BasicMarkovTest
 
             for(int j = 0; j < size; j++)
             {
-                String temp = markovChain.generateSentence();
+                Collection<String> temp = markovChain.generateSentence();
                 Assert.assertNotNull(temp);
-                Assert.assertTrue(temp.length() > 0);
+                Assert.assertTrue(temp.size() > 0);
             }
 
             size *= chunkMult;
@@ -240,15 +207,15 @@ public class BasicMarkovTest
         return new String(string);
     }
 
-    private String generateSentence()
+    private List<String> generateSentence()
     {
         final int sentenceLen = rand.nextInt(100) + 50;
-        StringBuilder b = new StringBuilder();
+        List<String> b = new ArrayList<>();
         for(int i = 0; i < sentenceLen; i++)
         {
-            b.append(genString()).append(" ");
+            b.add(genString());
         }
-        return b.toString().trim();
+        return b;
     }
 
     static class MockRandomNumberStrategy implements RandomNumberStrategy
@@ -265,5 +232,21 @@ public class BasicMarkovTest
         {
             return rand.nextInt(upperBound);
         }
+    }
+
+    private static String toString(Collection<String> collection)
+    {
+        StringBuilder builder = new StringBuilder();
+        List<String> listView = new ArrayList<>(collection);
+        for(int i = 0; i < listView.size(); i++)
+        {
+            builder.append(listView.get(i));
+            if(i < listView.size() - 1)
+            {
+                builder.append(" ");
+            }
+        }
+        System.out.println(builder);
+        return builder.toString();
     }
 }

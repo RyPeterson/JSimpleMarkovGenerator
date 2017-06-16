@@ -1,39 +1,44 @@
 package com.peterson.markovchain;
 
-import com.peterson.markovchain.MarkovChainConstants.ChainDefaultValues;
 import com.peterson.markovchain.generation.MarkovGenerator;
 import com.peterson.markovchain.io.TrainingInterceptor;
 import com.peterson.markovchain.random.RandomNumberStrategy;
 import com.peterson.markovchain.state.MarkovState;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * @author Peterson, Ryan
  *         Created 12/25/2015
  */
-public abstract class AbstractMarkovChain implements MarkovChain
+public abstract class AbstractMarkovChain<T> implements MarkovChain<T>
 {
-    protected final MarkovGenerator<String> generator;
-    protected MarkovState<String> state;
+    protected final MarkovGenerator<T> generator;
+    protected MarkovState<T> state;
 
-    protected Pattern splitPattern;
+    protected List<TrainingInterceptor<T>> trainingInterceptors;
 
-    protected List<TrainingInterceptor> trainingInterceptors;
+    private final T endPlaceholder;
+    private final T startPlaceholder;
 
-    protected AbstractMarkovChain(MarkovGenerator<String> generator, MarkovState<String> state)
+
+    /**
+     * Construct the generator
+     * @param generator the MarkovGenerator that is to generate the chains
+     * @param state the chain "database"
+     * @param startPlaceholder a reserved placeholder for the first item in a chain
+     * @param endPlaceholder a reserved placeholder for the last item in a chain.
+     */
+    protected AbstractMarkovChain(MarkovGenerator<T> generator, MarkovState<T> state, T startPlaceholder, T endPlaceholder)
     {
         this.generator = generator;
         this.state = state;
+        this.startPlaceholder = startPlaceholder;
+        this.endPlaceholder = endPlaceholder;
         this.trainingInterceptors = new ArrayList<>();
-        setSplitPattern(MarkovChainConstants.DEFAULT_WORD_REGEX);
-    }
-
-    protected void setSplitPattern(Pattern pattern)
-    {
-        this.splitPattern = pattern;
     }
 
     void setRand(RandomNumberStrategy random)
@@ -42,12 +47,12 @@ public abstract class AbstractMarkovChain implements MarkovChain
     }
 
     @Override
-    public void acceptInterceptor(TrainingInterceptor interceptor)
+    public void acceptInterceptor(TrainingInterceptor<T> interceptor)
     {
         this.trainingInterceptors.add(interceptor);
     }
 
-    protected void put(String key, String current)
+    protected void put(T key, T current)
     {
         this.trainingInterceptors.forEach((interceptor -> interceptor.intercept(key, current)));
         this.state.put(key, current);
@@ -59,75 +64,57 @@ public abstract class AbstractMarkovChain implements MarkovChain
      * @param seed the word to seed the next with
      * @return a randomly selected word from the chain or null if the chain is empty
      */
-    protected String generate(String seed)
+    protected T generate(T seed)
     {
         return this.generator.apply(seed, this.state).orElse(null);
     }
 
 
-    public void addPhrase(String phrase)
+    @Override
+    public void addPhrase(List<T> phrase)
     {
         if(phrase == null)
         {
             return;
         }
 
-        //check that its not just a new line or carrage return.
-        if(MarkovChainUtilities.hasWhitespaceError(phrase))
-        {
-            return;
-        }
-
-        //ensure that the phrase has ending punctuation
-        if(!MarkovChainConstants.PUNCTUATION_SET.contains(MarkovChainUtilities.endChar(phrase)))
-        {
-            phrase += MarkovChainConstants.DEFAULT_PHRASE_END;
-        }
-
-
-        String[] words = this.splitPattern.split(phrase);
-
-        for(int i = 0; i < words.length; i++)
+        for(int i = 0; i < phrase.size(); i++)
         {
             if(i == 0)
             {
-                String next = i + 1 < words.length ? words[i + 1] : null;
-                put(ChainDefaultValues.CHAIN_START.toString(), words[i]);
-                put(words[i], next);
+                T next = i + 1 <  phrase.size() ?  phrase.get(i + 1) : null;
+                put(startPlaceholder, phrase.get(i));
+                put(phrase.get(i), next);
             }
-            else if(i == words.length - 1)
+            else if(i == phrase.size() - 1)
             {
-                put(ChainDefaultValues.CHAIN_END.toString(), words[i]);
+                put(endPlaceholder, phrase.get(i));
             }
             else
             {
-                put(words[i], words[i + 1]);
+                put(phrase.get(i), phrase.get(i + 1));
             }
         }
     }
 
     @Override
-    public String generateSentence()
+    public Collection<T> generateSentence()
     {
-        StringBuilder sentence = new StringBuilder();
-        String next;
+        Collection<T> sentence = new ArrayList<>();
+        T next;
 
 
-        next = generate(ChainDefaultValues.CHAIN_START.toString());
+        next = generate(startPlaceholder);
         if(next == null)
         {
-            return ChainDefaultValues.NO_CHAIN.toString();
+            return Collections.emptyList();
         }
-        sentence.append(next).append(" ");
+        sentence.add(next);
 
-        if(next.length() - 1 > 0)
+        while((next = generate(next)) != null)
         {
-            while(!MarkovChainConstants.PUNCTUATION_SET.contains(next.charAt(next.length() - 1)))
-            {
-                next = generate(next);
-                sentence.append(next).append(" ");
-            }
+            sentence.add(next);
         }
-        return sentence.toString();
+        return sentence;
     }
 }

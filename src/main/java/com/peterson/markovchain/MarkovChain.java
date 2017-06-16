@@ -2,20 +2,21 @@ package com.peterson.markovchain;
 
 import com.peterson.markovchain.io.TrainingInterceptor;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * @author Peterson, Ryan
  *         Created: 5/30/15
  */
-public interface MarkovChain
+public interface MarkovChain<T>
 {
     /**
      * Add a single phrase to the database.
      * This will generate with previous chains with the chain resulting from the passed phrase.
-     * The words of the phrase generate with the assumption that each word is separated by a space, and if the sentence
-     * does not contain a period at the end, it will be appended with one.
      * @param phrase the sentence to add to the chain.
      */
-    void addPhrase(String phrase);
+    void addPhrase(List<T> phrase);
 
     /**
      * Generate a random sentence using the chains in the database.
@@ -24,8 +25,8 @@ public interface MarkovChain
      * Calls to this method remove no data from the chain database.
      * @return a single generated sentence.
      */
-    String generateSentence();
+    Collection<T> generateSentence();
 
 
-    void acceptInterceptor(TrainingInterceptor interceptor);
+    void acceptInterceptor(TrainingInterceptor<T> interceptor);
 }

@@ -6,7 +6,7 @@ package com.peterson.markovchain.io;
  * This should not modify the chain!
  * Created by Ryan on 2/3/2017.
  */
-public interface TrainingInterceptor
+public interface TrainingInterceptor<T>
 {
-    void intercept(String key, String current);
+    void intercept(T key, T current);
 }

@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
  * @author Peterson, Ryan
  *         Created: 6/9/15
  */
-public class SynchronizedBasicMarkovTest extends BasicMarkovTest
+public class ConcurrentStringBasedMarkovChainTestCase extends StringBasedMarkovChainTestCase
 {
     public static final int NUM_THREADS = 100;
 
@@ -21,7 +21,7 @@ public class SynchronizedBasicMarkovTest extends BasicMarkovTest
     @Override
     public void setUp()
     {
-        markovChain = new ConcurrentBasicMarkovChain();
+        markovChain = new StringMarkovChain(true);
     }
 
     @Test
@@ -44,12 +44,5 @@ public class SynchronizedBasicMarkovTest extends BasicMarkovTest
             Assert.assertFalse(((SimpleThread)t).exceptionThrown());
         }
 
-    }
-
-    @Override
-    public void practicalTest()
-    {
-        //TODO: why does the practical test fail with this version of the generator?
-        //THREAD LOCAL RANDOM, DUH
     }
 }

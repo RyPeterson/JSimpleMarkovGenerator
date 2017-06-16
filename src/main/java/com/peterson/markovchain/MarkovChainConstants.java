@@ -54,5 +54,5 @@ public class MarkovChainConstants
      * The values that indicate the end of a sentence. If one of these isn't present, then
      * DEFAULT_PHRASE_END will be appended to the end of the sentence.
      */
-    public static Set<Character> PUNCTUATION_SET = ImmutableSet.of('.', '?', '!', ';');
+    public static Set<String> PUNCTUATION_SET = ImmutableSet.of(".", "?", "!", ";");
 }

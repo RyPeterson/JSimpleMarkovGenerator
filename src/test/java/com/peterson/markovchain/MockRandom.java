@@ -22,7 +22,7 @@ public class MockRandom extends Random
     {
         //TODO: will this be needed for concurrent tests?
         randoms = new ArrayBlockingQueue<>(ints.size(), true);
-        ints.forEach((i) -> randoms.add(i));
+        randoms.addAll(ints);
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.peterson.markovchain;
 /**
  * Created by Ryan on 2/10/2017.
  */
-public interface GenerateOnSeedMarkovChain extends MarkovChain
+public interface GenerateOnSeedMarkovChain<T> extends MarkovChain<T>
 {
     /**
      * Generates a Markov phrase based off a seed word.
