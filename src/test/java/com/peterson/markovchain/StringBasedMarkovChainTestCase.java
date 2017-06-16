@@ -218,21 +218,6 @@ public class StringBasedMarkovChainTestCase
         return b;
     }
 
-    static class MockRandomNumberStrategy implements RandomNumberStrategy
-    {
-        private MockRandom rand;
-
-        public MockRandomNumberStrategy(Integer... randoms)
-        {
-            rand = new MockRandom(randoms);
-        }
-
-        @Override
-        public int nextInt(int upperBound)
-        {
-            return rand.nextInt(upperBound);
-        }
-    }
 
     private static String toString(Collection<String> collection)
     {
