@@ -10,6 +10,13 @@
     <properties>
         <java.version>14</java.version>
     </properties>
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/rypeterson/jsimplemarkovgenerator</url>
+        </repository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
