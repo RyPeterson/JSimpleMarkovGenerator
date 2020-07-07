@@ -1,6 +1,8 @@
 A Simple Markov Chain generator in Java
 ========================================
 
+![Maven Package](https://github.com/RyPeterson/JSimpleMarkovGenerator/workflows/Maven%20Package/badge.svg)
+
 What is a Markov Chain?
 ------------------------
 
